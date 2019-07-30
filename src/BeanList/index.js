@@ -9,11 +9,15 @@ class BeanList extends React.Component {
     super(props);
   }
 
+  static navigationOptions = {
+    title: "Coffee Beans"
+  };
+
   render() {
     return (
       <Base backgroundColor="gray" flex={1}>
         <StatusBar barStyle="dark-content" />
-        <TabView />
+        <TabView navigation={this.props.navigation} />
       </Base>
     );
   }

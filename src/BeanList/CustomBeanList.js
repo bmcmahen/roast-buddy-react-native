@@ -1,11 +1,16 @@
 import React from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { View, RefreshControl, StyleSheet, SectionList } from "react-native";
-import { Divider, Text, Icon, TouchableRow } from "../components";
+import { View, SectionList, StyleSheet } from "react-native";
+import {
+  Divider,
+  Text,
+  Icon,
+  Base,
+  TouchableRow,
+  TouchableRowCell
+} from "../components";
 import { fetchBeans } from "../actions/beans";
-import { push } from "../actions/nav";
-import { showNewBean } from "../actions/recorder";
 
 class List extends React.Component {
   constructor(props) {
@@ -36,6 +41,7 @@ class List extends React.Component {
     return (
       <SectionList
         renderItem={this._renderRow}
+        keyExtractor={a => a._id}
         renderSectionHeader={this._renderHeader}
         renderSeparator={(a, b) => <Divider inset={16} key={a + b} />}
         onRefresh={this._reload}
@@ -53,21 +59,34 @@ class List extends React.Component {
   _renderHeader = () => {
     return (
       <View>
-        <TouchableRow
-          height={50}
+        <TouchableRowCell
           showMore={false}
-          onPress={() => {
-            this.props.dispatch(showNewBean());
+          backgroundColor="white"
+          style={{
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            borderBottomColor: "rgba(0,0,0,0.15)",
+            paddingRight: 16
           }}
-          primaryText={
-            <Text color="red" small bold>
-              Add Custom Bean
-            </Text>
-          }
-          value={<Icon name="plus" color="red" mr={2} />}
-        />
-        <Divider inset={0} />
-        <Divider inset={0} style={{ marginTop: 3 }} />
+          onPress={() => {
+            this.props.navigation.navigate("Bean");
+          }}
+          height={64}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              alignSelf: "stretch",
+              flex: 1
+            }}
+          >
+            <Text>Add a custom bean</Text>
+          </View>
+          <Base>
+            <Icon name="plus" color="light" />
+          </Base>
+        </TouchableRowCell>
+
+        <Divider style={{ marginTop: 2 }} />
       </View>
     );
   };
@@ -76,13 +95,11 @@ class List extends React.Component {
     return (
       <TouchableRow
         onPress={() => {
-          this.props.dispatch(
-            push("Bean View", {
-              beanId: bean._id,
-              isCustom: true,
-              title: bean.name
-            })
-          );
+          this.props.navigation.navigate("ViewBean", {
+            beanId: bean._id,
+            isCustom: true,
+            title: bean.name
+          });
         }}
         height={50}
         key={bean._id}
@@ -100,28 +117,6 @@ class List extends React.Component {
     this.props.dispatch(fetchBeans());
   }
 }
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 10,
-    backgroundColor: "#F6F6F6"
-  },
-  thumb: {
-    width: 64,
-    height: 64
-  },
-  text: {
-    flex: 1
-  },
-  actionsContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center"
-  }
-});
 
 function getState(state) {
   return {

@@ -28,6 +28,7 @@ import {
   CloseIcon,
   NavBar
 } from "../components";
+import { SafeAreaView } from "react-navigation";
 
 class EditBean extends React.Component {
   componentDidMount() {
@@ -99,6 +100,28 @@ class EditBean extends React.Component {
     this.state = state;
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Custom Bean",
+      headerLeft: (
+        <NavTouchableText onPress={() => navigation.pop()}>
+          Cancel
+        </NavTouchableText>
+      ),
+      headerRight: (
+        <NavTouchableText onPress={() => navigation.getParam("save")()}>
+          Save
+        </NavTouchableText>
+      )
+    };
+  };
+
+  componentDidMount() {
+    this.props.navigation.setParams({
+      save: this._save.bind(this)
+    });
+  }
+
   render() {
     const { state } = this;
     const { editing, bean } = this.props;
@@ -107,128 +130,112 @@ class EditBean extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
-        <NavBar
-          title={title}
-          LeftButton={
-            <NavTouchableIcon
-              accessibilityLabel="Back"
-              onPress={this._close.bind(this)}
+        <SafeAreaView style={{ flex: 1 }}>
+          <KeyboardAwareScrollView
+            keyboardShouldPersistTaps="always"
+            keyboardDismissMode="on-drag"
+            automaticallyAdjustContentInsets={false}
+            style={{ flex: 1, padding: 0, margin: 0 }}
+          >
+            <InputGroup
+              showBorder={Platform.OS === "ios"}
+              showTopBorder={false}
             >
-              <CloseIcon />
-            </NavTouchableIcon>
-          }
-          RightButton={
-            <NavTouchableText
-              color="black"
-              disabled={disabled}
-              bold={Platform.OS === "ios"}
-              onPress={this._save.bind(this)}
-            >
-              Save
-            </NavTouchableText>
-          }
-        />
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="always"
-          keyboardDismissMode="on-drag"
-          automaticallyAdjustContentInsets={false}
-          style={{ flex: 1, padding: 0, margin: 0 }}
-        >
-          <InputGroup showBorder={Platform.OS === "ios"} showTopBorder={false}>
-            <Base px={2} pt={2} pb={1}>
-              <Text small bold style={styles.label}>
-                bean name (required)
-              </Text>
-              <TextInput
-                placeholder="brief name"
-                style={[styles.field]}
-                maxLength={40}
-                defaultValue={this.state.name}
-                value={this.state.name}
-                onChangeText={text => {
-                  this.setState({ name: text });
-                }}
-              />
-            </Base>
-            {!state.preloading && (
-              <Base pb={2} style={{ zIndex: 600 }}>
-                <Base px={2} pt={2} justifyContent="space-between" row>
-                  <Text bold small>
-                    country of origin
-                  </Text>
-                  {Platform.OS === "ios" && (
-                    <Text>
-                      {this.state.region ? regions(this.state.region) : ""}
-                    </Text>
-                  )}
-                </Base>
-                {Platform.OS === "ios" ? (
-                  <AutoComplete
-                    data={state.query ? this._filterData() : []}
-                    defaultValue={state.query}
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    containerStyle={styles.autocompleteContainer}
-                    placeholder="search for country of origin"
-                    onChangeText={text => this.setState({ query: text })}
-                    renderItem={data => (
-                      <TouchableOpacity
-                        key={data}
-                        style={{
-                          height: 50,
-                          padding: 16,
-                          justifyContent: "center"
-                        }}
-                        onPress={() => {
-                          this._selectCountry(data);
-                        }}
-                      >
-                        <View>
-                          <Text>{data}</Text>
-                        </View>
-                      </TouchableOpacity>
-                    )}
-                  />
-                ) : (
-                  <View style={{ paddingHorizontal: 10 }}>
-                    <Picker
-                      selectedValue={this.state.region}
-                      onValueChange={region => this.setState({ region })}
-                    >
-                      {Object.keys(this._countries).map(key => {
-                        const name = this._countries[key];
-                        return (
-                          <Picker.Item key={key} label={name} value={key} />
-                        );
-                      })}
-                    </Picker>
-                  </View>
-                )}
-              </Base>
-            )}
-            {state.fields.map((field, i) => (
-              <Base key={field} px={2} pt={2} pb={1}>
+              <Base px={2} pt={2} pb={1}>
                 <Text small bold style={styles.label}>
-                  {field}
+                  bean name (required)
                 </Text>
                 <TextInput
-                  key={field}
-                  placeholder="Enter text here..."
-                  style={[
-                    styles.field,
-                    state.settings[i].multiline && styles.multiline
-                  ]}
-                  defaultValue={state[field]}
-                  value={state[field]}
-                  {...state.settings[i]}
+                  placeholder="brief name"
+                  style={[styles.field]}
+                  maxLength={40}
+                  defaultValue={this.state.name}
+                  value={this.state.name}
                   onChangeText={text => {
-                    this.setState({ [field]: text });
+                    this.setState({ name: text });
                   }}
                 />
               </Base>
-            ))}
-          </InputGroup>
-        </KeyboardAwareScrollView>
+              {!state.preloading && (
+                <Base pb={2} style={{ zIndex: 600 }}>
+                  <Base px={2} pt={2} justifyContent="space-between" row>
+                    <Text bold small>
+                      country of origin
+                    </Text>
+                    {Platform.OS === "ios" && (
+                      <Text>
+                        {this.state.region ? regions(this.state.region) : ""}
+                      </Text>
+                    )}
+                  </Base>
+                  {Platform.OS === "ios" ? (
+                    <AutoComplete
+                      data={state.query ? this._filterData() : []}
+                      defaultValue={state.query}
+                      autoCorrect={false}
+                      autoCapitalize="none"
+                      containerStyle={styles.autocompleteContainer}
+                      placeholder="search for country of origin"
+                      onChangeText={text => this.setState({ query: text })}
+                      renderItem={data => (
+                        <TouchableOpacity
+                          key={data}
+                          style={{
+                            height: 50,
+                            padding: 16,
+                            justifyContent: "center"
+                          }}
+                          onPress={() => {
+                            this._selectCountry(data);
+                          }}
+                        >
+                          <View>
+                            <Text>{data}</Text>
+                          </View>
+                        </TouchableOpacity>
+                      )}
+                    />
+                  ) : (
+                    <View style={{ paddingHorizontal: 10 }}>
+                      <Picker
+                        selectedValue={this.state.region}
+                        onValueChange={region => this.setState({ region })}
+                      >
+                        {Object.keys(this._countries).map(key => {
+                          const name = this._countries[key];
+                          return (
+                            <Picker.Item key={key} label={name} value={key} />
+                          );
+                        })}
+                      </Picker>
+                    </View>
+                  )}
+                </Base>
+              )}
+              {state.fields.map((field, i) => (
+                <Base key={field} px={2} pt={2} pb={1}>
+                  <Text small bold style={styles.label}>
+                    {field}
+                  </Text>
+                  <TextInput
+                    key={field}
+                    placeholder="Enter text here..."
+                    style={[
+                      styles.field,
+                      state.settings[i].multiline && styles.multiline
+                    ]}
+                    defaultValue={state[field]}
+                    value={state[field]}
+                    {...state.settings[i]}
+                    onChangeText={text => {
+                      this.setState({ [field]: text });
+                    }}
+                  />
+                </Base>
+              ))}
+            </InputGroup>
+          </KeyboardAwareScrollView>
+        </SafeAreaView>
       </View>
     );
   }
@@ -260,12 +267,12 @@ class EditBean extends React.Component {
       );
     }
 
-    this.props.dispatch(hideRecorder);
+    this.props.navigation.goBack();
   }
 
   // possibly warn
   _close() {
-    this.props.dispatch(hideRecorder);
+    this.props.navigation.goBack();
   }
 }
 
@@ -307,9 +314,11 @@ const styles = StyleSheet.create({
 });
 
 function getState(state, props) {
-  if (props.beanId) {
+  const beanId = props.navigation.getParam("beanId");
+
+  if (beanId) {
     return {
-      bean: _.find(state.customBeans, b => b._id === props.beanId),
+      bean: _.find(state.customBeans, b => b._id === beanId),
       editing: true
     };
   }

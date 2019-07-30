@@ -14,6 +14,12 @@ class ViewBean extends React.Component {
     return true;
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam("title")
+    };
+  };
+
   render() {
     const { bean, isCustom } = this.props;
     const possibleFields = [
@@ -88,19 +94,22 @@ class ViewBean extends React.Component {
 
   _delete() {
     this.props.dispatch(deleteCustomBean(this.props.bean._id));
-    this.props.dispatch(pop());
+    this.props.navigation.goBack();
   }
 }
 
 function getState(state, props) {
-  if (props.isCustom) {
+  const beanId = props.navigation.getParam("beanId");
+  const isCustom = props.navigation.getParam("isCustom");
+
+  if (isCustom) {
     return {
-      bean: _.find(state.customBeans, b => b._id === props.beanId)
+      bean: _.find(state.customBeans, b => b._id === beanId)
     };
   }
 
   return {
-    bean: _.find(state.beans.beans, b => b._id === props.beanId)
+    bean: _.find(state.beans.beans, b => b._id === beanId)
   };
 }
 export default connect(getState)(ViewBean);

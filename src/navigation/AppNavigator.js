@@ -19,6 +19,21 @@ import { connect } from "react-redux";
 import EditBean from "../BeanList/EditBean";
 import Onboard from "../Onboard";
 import BeanSublist from "../RoastList/BeanSublist";
+import ViewBean from "../BeanList/ViewBean";
+
+const EditBeansNavigator = createStackNavigator(
+  {
+    EditBeansRoot: EditBean
+  },
+  {
+    initialRouteName: "EditBeansRoot"
+  }
+);
+
+const BeansNavigator = createStackNavigator({
+  BeansRoot: BeanList,
+  ViewBean: ViewBean
+});
 
 const RoastsNavigator = createStackNavigator(
   {
@@ -46,7 +61,7 @@ const TabNavigator = createBottomTabNavigator(
     Activity: ActivityNavigator,
     Roasts: RoastsNavigator,
     Record: View,
-    Beans: BeanList,
+    Beans: BeansNavigator,
     Profile
   },
   {
@@ -99,7 +114,7 @@ const RootNavigator = createStackNavigator(
   {
     Root: TabNavigator,
     Recorder: RecorderNavigator,
-    Bean: EditBean
+    Bean: EditBeansNavigator
   },
   {
     headerMode: "none",

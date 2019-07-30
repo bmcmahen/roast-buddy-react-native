@@ -36,9 +36,10 @@ class List extends React.Component {
       <TouchableRow
         key={bean._id}
         onPress={() => {
-          this.props.dispatch(
-            push("Bean View", { beanId: bean._id, title: bean.name })
-          );
+          this.props.navigation.navigate("ViewBean", {
+            beanId: bean._id,
+            title: bean.name
+          });
         }}
         height={50}
         key={bean._id}

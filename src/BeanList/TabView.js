@@ -97,8 +97,11 @@ class BeanList extends React.Component {
             tabBarUnderlineHeight={1}
             tabBarInactiveTextColor="#aaa"
           >
-            <AllBeanList tabLabel="All" />
-            <CustomBeanList tabLabel="Custom" />
+            <AllBeanList navigation={this.props.navigation} tabLabel="All" />
+            <CustomBeanList
+              navigation={this.props.navigation}
+              tabLabel="Custom"
+            />
           </TabView>
         </SafeAreaView>
       </Base>
