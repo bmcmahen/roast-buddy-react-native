@@ -70,7 +70,10 @@ export default class LoggedIn extends React.Component {
       <Base flex={1} p={0} backgroundColor={config.colors.gray}>
         <StatusBar hidden />
         <AnimatedImage
-          source={require("./coffee-4.jpg")}
+          source={{
+            uri:
+              "https://images.pexels.com/photos/606544/pexels-photo-606544.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          }}
           resizeMode="cover"
           style={{
             position: "absolute",
