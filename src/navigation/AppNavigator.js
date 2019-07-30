@@ -167,7 +167,7 @@ const RootNavigator = createStackNavigator(
 class LoadingManager extends React.Component {
   constructor(props) {
     super(props);
-    props.navigation.navigate(props.settings.skipIntro ? "Onboard" : "Onboard");
+    props.navigation.navigate(props.settings.skipIntro ? "App" : "Onboard");
   }
 
   render() {

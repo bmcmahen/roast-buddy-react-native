@@ -42,7 +42,8 @@ async function loadResourcesAsync() {
       require("./src/Profile/coffee-4.jpg"),
       require("./src/Onboard/add-roast.mp4"),
       require("./src/Onboard/save-roast.mp4"),
-      require("./src/Profile/login.jpg")
+      require("./src/Profile/login.jpg"),
+      require("./src/Profile/cover.jpg")
     ]),
     Font.loadAsync({
       // This is the font that we are using for our tab bar

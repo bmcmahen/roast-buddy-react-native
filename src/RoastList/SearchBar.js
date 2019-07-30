@@ -18,7 +18,9 @@ class SearchBar extends React.Component {
           underlineColorAndroid="transparent"
           value={this.props.value}
           onChangeText={this.props.onChangeText}
+          clearButtonMode="always"
           returnKeyType="search"
+          spellCheck={false}
           style={styles.text}
           onSubmitEditing={this.props.onSearchButtonPress}
         />

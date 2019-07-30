@@ -52,9 +52,13 @@ class Sync extends React.Component {
         </SectionHeader>
 
         {total === 0 ? (
-          <Text ml={2} small light>
-            All items synced to server
-          </Text>
+          <Base backgroundColor="white">
+            <InputGroup inset={0}>
+              <Text py={2} ml={2} small light>
+                All roasts have been synced to the server.
+              </Text>
+            </InputGroup>
+          </Base>
         ) : (
           <Base backgroundColor="white">
             <InputGroup inset={16}>
@@ -63,19 +67,20 @@ class Sync extends React.Component {
             {total > 5 && <Text p={2}>+ {total - 5} more</Text>}
           </Base>
         )}
-        {/* <Divider /> */}
-        <Base>
-          <Button
-            small
-            alignSelf="flex-start"
-            intent="primary"
-            disabled={isFetching || syncing}
-            m={2}
-            onPress={() => this._sync()}
-          >
-            Sync with server
-          </Button>
-        </Base>
+        {total !== 0 && (
+          <Base>
+            <Button
+              small
+              alignSelf="flex-start"
+              intent="primary"
+              disabled={isFetching || syncing}
+              m={2}
+              onPress={() => this._sync()}
+            >
+              Sync with server
+            </Button>
+          </Base>
+        )}
       </Base>
     );
   }

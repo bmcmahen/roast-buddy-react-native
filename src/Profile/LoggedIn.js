@@ -70,10 +70,7 @@ export default class LoggedIn extends React.Component {
       <Base flex={1} p={0} backgroundColor={config.colors.gray}>
         <StatusBar hidden />
         <AnimatedImage
-          source={{
-            uri:
-              "https://images.pexels.com/photos/606544/pexels-photo-606544.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-          }}
+          source={require("./cover.jpg")}
           resizeMode="cover"
           style={{
             position: "absolute",
@@ -151,12 +148,12 @@ export default class LoggedIn extends React.Component {
               height: 100,
               width: 100,
               zIndex: 10,
-              borderRadius: 10,
+              borderRadius: 50,
               position: "absolute",
               top: 30,
               left: screen.width / 2 - 100 / 2,
               borderWidth: 4,
-              borderColor: "white",
+              borderColor: config.colors.gray,
               transform: [
                 {
                   translateY: this.state.scroll.interpolate({
@@ -200,7 +197,7 @@ export default class LoggedIn extends React.Component {
                   roasts={this.props.roasts}
                 />
               </Base>
-              <InputGroup mt={3} mb={3}>
+              <InputGroup label="Account" mt={2} mb={3}>
                 <TouchableInput
                   label="Sign out"
                   showMore

@@ -91,7 +91,7 @@ class RoastList extends React.Component {
   };
 
   _search(term) {
-    this.refs.searchBar.unFocus();
+    // this.refs.searchBar.unFocus();
   }
 
   _onSearch(term, force) {

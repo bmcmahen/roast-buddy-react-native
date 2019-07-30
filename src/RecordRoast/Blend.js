@@ -204,7 +204,7 @@ class Blend extends React.Component {
             })}
           </InputGroup>
 
-          <InputGroup mt={3}>
+          <InputGroup style={{ backgroundColor: "white" }} mt={3}>
             <InputToggle
               label="Melange"
               value={this.props.roast.isMelange}
