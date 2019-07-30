@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-  Animated
-} from "react-native";
-import { Base, Image } from "react-native";
+import { View, StyleSheet, Dimensions, Animated } from "react-native";
 import { Text, Button } from "../components";
 import { Video } from "expo-av";
+import { SafeAreaView } from "react-navigation";
 
 class TutorialPane extends React.Component {
   constructor(props) {
@@ -29,18 +23,20 @@ class TutorialPane extends React.Component {
     const screen = Dimensions.get("window");
 
     return (
-      <View style={{ backgroundColor: "#212529", flex: 1 }}>
-        <View style={{ flex: 1 }}>
-          <Animated.View
+      <View style={{ backgroundColor: "#1e1e1e", flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <View
             style={[
-              { height: 350, width: screen.width },
-              this.fadeIn(200, -20)
+              {
+                flexDirection: "column",
+                justifyContent: "flex-end",
+                height: screen.height / 2,
+                width: screen.width
+              }
             ]}
           >
             <Video
-              source={{
-                uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
-              }}
+              source={require("./add-roast.mp4")}
               rate={1.0}
               volume={1.0}
               isMuted={true}
@@ -49,22 +45,12 @@ class TutorialPane extends React.Component {
               isLooping
               style={{ flex: 1, height: 350 }}
             />
-            {/* <Video
-              source={require("./add-roast.mp4")}
-              isMuted
-              isLooping
-              resizeMode="cover"
-              style={{
-                width: 275,
-                height: 275
-              }}
-            /> */}
-          </Animated.View>
+          </View>
           <View style={{ padding: 16 }}>
-            <Animated.View style={this.fadeIn(0, 20)}>
-              <Animated.Text style={[styles.h2]}>
+            <View>
+              <Text style={[styles.h2]}>
                 Using Roast Buddy, prepare to record your roast details.
-              </Animated.Text>
+              </Text>
               <Text style={styles.subheading}>
                 Press the record button in the tab bar. Then select your bean,
                 and press 'start' once you have begun roasting.
@@ -73,7 +59,9 @@ class TutorialPane extends React.Component {
                 style={{
                   alignSelf: "stretch",
                   marginTop: 16,
-                  justifyContent: "flex-end"
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center"
                 }}
               >
                 <Button
@@ -85,19 +73,9 @@ class TutorialPane extends React.Component {
                   Next
                 </Button>
               </View>
-            </Animated.View>
+            </View>
           </View>
-        </View>
-        {/* <View style={{ padding: 16, paddingBottom: 72 }}>
-          <Button
-            onPress={this.props.onRequestNext}
-            alignSelf="center"
-            size="large"
-            intent="primary"
-          >
-            Next
-          </Button>
-        </View> */}
+        </SafeAreaView>
       </View>
     );
   }
@@ -136,7 +114,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 22,
     fontWeight: "bold",
-
+    textAlign: "center",
     marginBottom: 16,
     lineHeight: 28
   },
@@ -144,6 +122,7 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.8)",
     fontSize: 16,
     marginTop: 0,
+    textAlign: "center",
     lineHeight: 24,
     marginBottom: 8
   }

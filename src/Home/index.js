@@ -1,5 +1,4 @@
 import React from "react";
-import shortid from "shortid";
 import {
   StyleSheet,
   TouchableHighlight,
@@ -192,61 +191,6 @@ class PriorityRow extends React.Component {
             }}
           />
         ) : (
-          // <Base pt={1}>
-          //   <TextInput
-          //     multiline
-          //     underlineColorAndroid="transparent"
-          //     autoFocus
-          //     maxLength={300}
-          //     value={this.state.text}
-          //     style={{
-          //       flex: 1,
-          //       height: 80,
-          //       paddingHorizontal: 16,
-          //       paddingVertical: 16,
-          //       textAlignVertical: "top",
-          //       fontSize: 16,
-          //       lineHeight: 20
-          //     }}
-          //     placeholder={"Your notes"}
-          //     onChangeText={text => this.setState({ text })}
-          //   />
-          //   <Base p={2} row justify="space-between" alignItems="center">
-          //     <Base row>
-          //       <Base flex={1} />
-          //       <Button
-          //         small
-          //         mr={1}
-          //         onPress={() => {
-          //           LayoutAnimation.spring();
-          //           this.setState({ expanded: false, rating: null, text: "" });
-          //         }}
-          //         variant="ghost"
-          //       >
-          //         Cancel
-          //       </Button>
-          //       <Button
-          //         onPress={() => {
-          //           const review = {
-          //             _id: shortid.generate(),
-          //             date: moment.utc().format(),
-          //             value: this.state.text,
-          //             rating: this.state.rating
-          //           };
-
-          //           const reviews = [...roast.reviews, review];
-          //           this.props.dispatch(addReview(roast._id, reviews));
-          //           this.setState({ expanded: false, rating: null, text: "" });
-          //         }}
-          //         disabled={!this.state.text}
-          //         small
-          //         intent="primary"
-          //       >
-          //         Post Review
-          //       </Button>
-          //     </Base>
-          //   </Base>
-          // </Base>
           <TouchableOpacity
             style={{ paddingHorizontal: 16, paddingVertical: 12 }}
             onPress={() => {
@@ -366,7 +310,22 @@ class Home extends React.Component {
                 <SectionHeader mt={2}>Recent Roasts</SectionHeader>
                 {recentRoasts.map((roast, i) => this._renderRoast(roast, i))}
               </Base>
-            ) : null}
+            ) : (
+              <Base p={2}>
+                <Text style={{ textAlign: "center" }} small bold lineHeight={3}>
+                  You haven't recorded any roasts yet.
+                </Text>
+                <Text
+                  style={{ textAlign: "center" }}
+                  small
+                  light
+                  lineHeight={3}
+                >
+                  Once you start recording roasts, your recent activity and
+                  roast statistics will appear here.
+                </Text>
+              </Base>
+            )}
             {hasRoasts && (
               <View>
                 <SectionHeader mt={1}>Roast Statistics</SectionHeader>

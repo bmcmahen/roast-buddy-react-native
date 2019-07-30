@@ -56,7 +56,10 @@ class Deg extends React.Component {
               height: 30,
               marginTop: 5,
               borderRadius: 15,
-              width,
+              width: width.interpolate({
+                inputRange: [0, screen.width],
+                outputRange: [60, screen.width]
+              }),
               backgroundColor: degree.color
             }}
           />

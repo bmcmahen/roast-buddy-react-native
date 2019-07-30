@@ -1,6 +1,7 @@
 // @flow
 import * as Facebook from "expo-facebook";
 import Debug from "react-native-debug";
+import { AsyncStorage } from "react-native";
 
 const log = new Debug("app:request");
 
@@ -8,13 +9,12 @@ import { api } from "../config";
 
 async function request(route, method = "GET", payload) {
   try {
-    const data = await Facebook.getCurrentAccessToken();
+    const token = await AsyncStorage.getItem("fbtoken");
 
-    if (!data) {
+    if (!token) {
       throw new Error("No access token found");
     }
 
-    const token = data.accessToken.toString();
     const params = {
       method,
       headers: {

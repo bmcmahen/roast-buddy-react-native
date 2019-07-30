@@ -3,12 +3,11 @@
 import React from "react";
 import _ from "lodash";
 import TabView from "react-native-scrollable-tab-view";
-import { View, Animated, StatusBar, Platform } from "react-native";
+import { View, StatusBar, Platform } from "react-native";
 import Home from "./Greeting";
 import TutorialPane from "./TutorialPane1";
 import TutorialPane2 from "./TutorialPane2";
 import TutorialPane3 from "./TutorialPane3";
-import TutorialPane4 from "./TutorialPane4";
 import TutorialPane5 from "./TutorialPane5";
 import { connect } from "react-redux";
 import { skipIntro } from "../actions/settings";
@@ -51,7 +50,7 @@ class Greeting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 0
+      currentTab: 1
     };
   }
 
@@ -107,14 +106,7 @@ class Greeting extends React.Component {
               }}
             />
           </View>
-          <View style={{ flex: 1 }} tabLabel="Tutorial-4">
-            <TutorialPane4
-              isActive={this.state.currentTab === 4}
-              onRequestNext={() => {
-                this.refs.tabview.goToPage(5);
-              }}
-            />
-          </View>
+
           <View style={{ flex: 1 }} tabLabel="Tutorial-5">
             <TutorialPane5
               isActive={this.state.currentTab === 5}

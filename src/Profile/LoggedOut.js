@@ -1,6 +1,6 @@
 import React from "react";
 import { Base, Button, Loader, Image, Text } from "../components";
-import { Dimensions, Alert, StatusBar } from "react-native";
+import { Dimensions, Alert, AsyncStorage, StatusBar } from "react-native";
 import * as Facebook from "expo-facebook";
 import { loginWithFacebook } from "./facebook";
 import { login } from "../actions/user";
@@ -16,19 +16,12 @@ class LoggedOut extends React.Component {
     };
   }
 
-  _getToken() {
-    AccessToken.getCurrentAccessToken()
-      .then(data => {
-        console.log(data);
-      })
-      .catch(this._loginError.bind(this));
-  }
-
   async _requestProfile(token) {
     try {
+      await AsyncStorage.setItem("fbtoken", token);
       const profile = await loginWithFacebook(token);
       // dispatch our login event
-      console.log("Profile", profile);
+
       this.props.dispatch(login(profile));
       // this.setState({ loading: false })
     } catch (err) {

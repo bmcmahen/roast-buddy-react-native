@@ -9,7 +9,7 @@ export async function loginWithFacebook(token) {
       throw new Error("Bad request");
     }
     const json = await res.json();
-    console.log("response", res);
+
     return json;
   } catch (err) {}
 }

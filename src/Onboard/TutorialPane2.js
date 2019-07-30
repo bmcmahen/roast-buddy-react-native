@@ -1,6 +1,7 @@
 import React from "react";
 import { View, ScrollView, StyleSheet, Animated } from "react-native";
 import { Text, Button, Base } from "../components";
+import { SafeAreaView } from "react-navigation";
 
 class TutorialPane extends React.Component {
   constructor(props) {
@@ -24,31 +25,16 @@ class TutorialPane extends React.Component {
           paddingVertical: 40,
           paddingBottom: 60
         }}
-        style={{ backgroundColor: "black", flex: 1 }}
+        style={{ backgroundColor: "#212529", flex: 1 }}
       >
-        <View
-          style={{ paddingHorizontal: 16, flex: 1, justifyContent: "center" }}
-        >
-          <Animated.View style={this.fadeIn(0, 20)}>
-            <Base alignItems="center" flex={1}>
-              <View
-                style={{
-                  width: 50,
-                  marginBottom: 16,
-                  marginTop: 32,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: 50,
-                  borderRadius: 25,
-                  borderWidth: 2,
-                  borderColor: "white"
-                }}
-              >
-                <Text giant color="white">
-                  3
-                </Text>
-              </View>
-            </Base>
+        <SafeAreaView>
+          <View
+            style={{
+              paddingVertical: 32,
+              paddingHorizontal: 16,
+              flex: 1
+            }}
+          >
             <Animated.Text style={[styles.h2]}>
               Add beans to your popper and place a bowl to catch the chaff.
             </Animated.Text>
@@ -57,27 +43,7 @@ class TutorialPane extends React.Component {
               around the popper, but not too vigourously. Generally, the fewer
               beans you add, the slower your roast will be.
             </Text>
-          </Animated.View>
 
-          <Animated.View style={this.fadeIn(500, 20)}>
-            <Base alignItems="center" flex={1} mt={3}>
-              <View
-                style={{
-                  width: 50,
-                  marginTop: 16,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: 50,
-                  borderRadius: 25,
-                  borderWidth: 2,
-                  borderColor: "white"
-                }}
-              >
-                <Text giant color="white">
-                  4
-                </Text>
-              </View>
-            </Base>
             <Animated.Text style={[styles.h2]}>
               Listen and watch your coffee.
             </Animated.Text>
@@ -86,19 +52,46 @@ class TutorialPane extends React.Component {
               first phase of cracks indicates a light roast, while the second
               phase indicates a medium roast.
             </Text>
-          </Animated.View>
 
-          <Button
-            onPress={this.props.onRequestNext}
-            alignSelf="center"
-            mt={3}
-            small
-            style={{ borderColor: "white" }}
-            outline
-          >
-            <Text color="white">Next</Text>
-          </Button>
-        </View>
+            <Animated.Text style={[styles.h2]}>
+              Remove coffee from the popper when desired, and cool it using the
+              mesh collandar.
+            </Animated.Text>
+            <Text style={styles.subheading}>
+              Your beans can be removed any time after the first crack.
+              Typically, your roast duration will run somewhere between 6 to 12
+              minutes, depending on how dark you roast your coffee.
+            </Text>
+
+            <Animated.Text style={[styles.h2]}>
+              Once cooled, store your coffee in an old coffee bag.
+            </Animated.Text>
+            <Text style={styles.subheading}>
+              Over the coming weeks the beans will release carbon, so be careful
+              about storing the beans in air-tight containers. After three or
+              four days, your coffee should be ready to drink.
+            </Text>
+
+            <View
+              style={{
+                alignSelf: "stretch",
+                marginTop: 16,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Button
+                onPress={this.props.onRequestNext}
+                size="small"
+                intent="primary"
+                style={{ alignSelf: "flex-start" }}
+              >
+                Next
+              </Button>
+            </View>
+          </View>
+        </SafeAreaView>
       </ScrollView>
     );
   }
@@ -127,26 +120,27 @@ class TutorialPane extends React.Component {
 const styles = StyleSheet.create({
   h1: {
     color: "white",
-    fontSize: 35,
+    fontSize: 22,
     fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20
+    lineHeight: 28,
+    padding: 3,
+    marginBottom: 0,
+    textAlign: "center"
   },
   h2: {
     color: "white",
     fontSize: 22,
     fontWeight: "bold",
-    marginTop: 16,
-    textAlign: "center"
+    textAlign: "center",
+    lineHeight: 28
   },
   subheading: {
     color: "rgba(255,255,255,0.8)",
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 0,
-    lineHeight: 18,
     textAlign: "center",
-    maxWidth: 500,
-    alignSelf: "center"
+    lineHeight: 24,
+    marginBottom: 24
   }
 });
 

@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Animated,
-  LinkingIOS
-} from "react-native";
-import { Base } from "react-native";
+import { View, StyleSheet, ScrollView, Animated } from "react-native";
 import { Button, Text } from "../components";
+import { SafeAreaView } from "react-navigation";
 
 class TutorialPane extends React.Component {
   constructor(props) {
@@ -27,89 +20,77 @@ class TutorialPane extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-            paddingVertical: 40,
-            paddingBottom: 60
-          }}
-          style={{ flex: 1 }}
-        >
-          <View
-            style={{
-              width: 50,
-              marginBottom: 16,
-              marginTop: 32,
-              alignItems: "center",
-              justifyContent: "center",
-              height: 50,
-              borderRadius: 25,
-              borderWidth: 2,
-              borderColor: "white"
-            }}
-          >
-            <Text giant color="white">
-              1
+      <View style={{ flex: 1, backgroundColor: "#212529" }}>
+        <ScrollView style={{ flex: 1 }}>
+          <SafeAreaView style={{ padding: 16 }}>
+            <Text
+              style={[
+                styles.h1,
+                {
+                  paddingVertical: 32,
+                  paddingHorizontal: 16
+                }
+              ]}
+            >
+              Things you will need
             </Text>
-          </View>
-          <Animated.Text
-            style={[{ textAlign: "center" }, styles.h1, this.fadeIn(0, -20)]}
-          >
-            You will need...
-          </Animated.Text>
-          <View style={{ paddingHorizontal: 16, flex: 1 }}>
-            <Animated.View style={this.fadeIn(50, 20)}>
-              <Animated.Text style={[styles.h2]}>
-                a well ventilated area
-              </Animated.Text>
-              <Text style={styles.subheading}>
-                Roasting coffee can sometimes be a bit smokey, and smelly. Try
-                doing it outside or near a window.
-              </Text>
-            </Animated.View>
-            <Animated.View style={this.fadeIn(100, 20)}>
-              <Animated.Text style={[styles.h2]}>
-                a popcorn popper
-              </Animated.Text>
-              <Text style={styles.subheading}>
-                You can roast coffee with most hot-air popcorn poppers. Just
-                make sure that the{" "}
-                <Text
-                  style={{ color: "white", fontSize: 14, fontWeight: "bold" }}
-                >
-                  hot air enters the popcorn chamber from side vents.
+            <View style={{ paddingHorizontal: 16, flex: 1 }}>
+              <View>
+                <Text style={[styles.h2]}>A well ventilated area.</Text>
+                <Text style={styles.subheading}>
+                  Roasting coffee can sometimes be a bit smokey, and smelly. Try
+                  doing it outside or near a window.
                 </Text>
-              </Text>
-            </Animated.View>
-            <Animated.View style={this.fadeIn(150, 20)}>
-              <Animated.Text style={[styles.h2]}>green coffee</Animated.Text>
-              <Text style={styles.subheading}>
-                You can find green, unroasted coffee online.
-              </Text>
-            </Animated.View>
-            <Animated.View style={this.fadeIn(200, 20)}>
-              <Animated.Text style={[styles.h2]}>
-                optionally, a wire colander and kitchen scale
-              </Animated.Text>
-              <Text style={styles.subheading}>
-                A kitchen scale helps give consistency to your roasts, while a
-                wire colander will help you cool down the beans once roasted.
-              </Text>
-            </Animated.View>
-          </View>
+              </View>
+              <View>
+                <Text style={[styles.h2]}>A popcorn popper.</Text>
+                <Text style={styles.subheading}>
+                  You can roast coffee with most hot-air popcorn poppers. Just
+                  make sure that the{" "}
+                  <Text bold color="white" small>
+                    hot air enters the popcorn chamber from side vents.
+                  </Text>{" "}
+                  Of course, you can always use a speciality made coffee roaster
+                  too.
+                </Text>
+              </View>
+              <View>
+                <Text style={[styles.h2]}>Some green coffee</Text>
+                <Text style={styles.subheading}>
+                  You can find green, unroasted coffee online. Sometimes you can
+                  ask your local coffee roaster for some green beans, too.
+                </Text>
+              </View>
+              <View>
+                <Text style={[styles.h2]}>
+                  Optionally, a wire colander and kitchen scale.
+                </Text>
+                <Text style={styles.subheading}>
+                  A kitchen scale helps give consistency to your roasts, while a
+                  wire colander will help you cool down the beans once roasted.
+                </Text>
+              </View>
+              <View
+                style={{
+                  alignSelf: "stretch",
+                  marginTop: 16,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Button
+                  onPress={this.props.onRequestNext}
+                  size="small"
+                  intent="primary"
+                  style={{ alignSelf: "flex-start" }}
+                >
+                  Next
+                </Button>
+              </View>
+            </View>
+          </SafeAreaView>
         </ScrollView>
-        <View style={{ padding: 16, paddingBottom: 72 }}>
-          <Button
-            onPress={this.props.onRequestNext}
-            alignSelf="center"
-            size="large"
-            intent="primary"
-          >
-            Next
-          </Button>
-        </View>
       </View>
     );
   }
@@ -142,24 +123,25 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 22,
     fontWeight: "bold",
+    lineHeight: 28,
     padding: 3,
-    marginBottom: 0
-    // backgroundColor: 'black'
+    marginBottom: 0,
+    textAlign: "center"
   },
   h2: {
     color: "white",
     fontSize: 22,
     fontWeight: "bold",
-    marginTop: 20,
-    textAlign: "center"
+    textAlign: "center",
+    lineHeight: 28
   },
   subheading: {
     color: "rgba(255,255,255,0.8)",
-    maxWidth: 500,
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 0,
-    lineHeight: 18,
-    textAlign: "center"
+    textAlign: "center",
+    lineHeight: 24,
+    marginBottom: 24
   }
 });
 

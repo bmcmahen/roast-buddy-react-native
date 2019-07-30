@@ -28,6 +28,7 @@ class Region extends React.Component {
 
     const percent = count / maxCount;
     const width = (screen.width - 50) * percent;
+
     Animated.sequence([
       Animated.delay(i * 50),
       Animated.spring(this.state.width, { toValue: width })
@@ -54,7 +55,10 @@ class Region extends React.Component {
               height: 30,
               marginTop: 5,
               borderRadius: 15,
-              width,
+              width: width.interpolate({
+                inputRange: [0, screen.width],
+                outputRange: [60, screen.width]
+              }),
               backgroundColor: "black"
             }}
           />

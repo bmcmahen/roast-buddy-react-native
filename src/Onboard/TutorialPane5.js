@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Animated,
-  Dimensions
-} from "react-native";
-import { Base, Image } from "react-native";
+import { View, StyleSheet, Animated, Dimensions } from "react-native";
 import { Text, Button } from "../components";
-// import Video from 'react-native-video'
+import { Video } from "expo-av";
+import { SafeAreaView } from "react-navigation";
 
 class TutorialPane extends React.Component {
   constructor(props) {
@@ -29,91 +23,58 @@ class TutorialPane extends React.Component {
     const screen = Dimensions.get("window");
 
     return (
-      <ScrollView
-        contentContainerStyle={{
-          alignItems: "center",
-          paddingVertical: 40,
-          paddingBottom: 60
-        }}
-        style={{ paddingBottom: 60, backgroundColor: "black", flex: 1 }}
-      >
-        <View
-          style={{
-            width: 50,
-            marginBottom: 16,
-            alignItems: "center",
-            justifyContent: "center",
-            height: 50,
-            borderRadius: 25,
-            borderWidth: 2,
-            borderColor: "white"
-          }}
-        >
-          <Text giant color="white">
-            7
-          </Text>
-        </View>
-        <Animated.View
-          style={[
-            { height: 275, marginTop: 16, width: screen.width },
-            this.fadeIn(200, -20)
-          ]}
-        >
-          {/* <Video
-          source={require('./save-roast.mp4')}
-          repeat={true}
-          muted={true}
-          rate={this.props.isActive ? 1 : 0}
-          key='video'
-          resizeMode='cover'
-          style={{
-            width: screen.width,
-            height: 275
-          }}
-        /> */}
-        </Animated.View>
-        <View style={{ padding: 0 }}>
-          <Animated.View style={this.fadeIn(0, 20)}>
-            <Animated.Text style={[styles.h2]}>
-              In Roast Buddy, stop your timer, add additional details, and save.
-            </Animated.Text>
-            <Text style={styles.subheading}>
-              You can add your roast degree, temperature, weight, and other
-              notes. After you save your roast, you can also add tasting notes.
-            </Text>
-          </Animated.View>
-          <Button
-            large
-            onPress={this.props.onRequestNext}
-            alignSelf="center"
-            mt={2}
-            primary
+      <View style={{ backgroundColor: "#1e1e1e", flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <View
+            style={[
+              {
+                flexDirection: "column",
+                justifyContent: "flex-end",
+                height: screen.height / 2,
+                width: screen.width
+              }
+            ]}
           >
-            Begin using Roast Buddy
-          </Button>
-        </View>
-      </ScrollView>
+            <Video
+              source={require("./save-roast.mp4")}
+              rate={1.0}
+              volume={1.0}
+              isMuted={true}
+              resizeMode="cover"
+              rate={this.props.isActive ? 1 : 0}
+              isLooping
+              style={{ flex: 1, height: 350 }}
+            />
+          </View>
+          <View style={{ padding: 16 }}>
+            <View>
+              <Text style={[styles.h2]}>
+                In Roast Buddy, stop your timer, add additional details, and
+                save.
+              </Text>
+              <Text style={styles.subheading}>
+                You can add your roast degree, temperature, weight, and other
+                notes. After you save your roast, you can also add tasting
+                notes.
+              </Text>
+              <View
+                style={{
+                  alignSelf: "stretch",
+                  marginTop: 16,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Button onPress={this.props.onRequestNext} intent="primary">
+                  Begin using Roast Buddy
+                </Button>
+              </View>
+            </View>
+          </View>
+        </SafeAreaView>
+      </View>
     );
-  }
-
-  fadeIn(delay, from = 0) {
-    const { anim } = this.state;
-    return {
-      opacity: anim.interpolate({
-        inputRange: [delay, Math.min(delay + 500, 3000)],
-        outputRange: [0, 1],
-        extrapolate: "clamp"
-      }),
-      transform: [
-        {
-          translateY: anim.interpolate({
-            inputRange: [delay, Math.min(delay + 500, 3000)],
-            outputRange: [from, 0],
-            extrapolate: "clamp"
-          })
-        }
-      ]
-    };
   }
 }
 
@@ -127,19 +88,18 @@ const styles = StyleSheet.create({
   h2: {
     color: "white",
     fontSize: 22,
-    maxWidth: 500,
     fontWeight: "bold",
-    marginTop: 16,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 16,
+    lineHeight: 28
   },
   subheading: {
     color: "rgba(255,255,255,0.8)",
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 0,
-    lineHeight: 18,
     textAlign: "center",
-    maxWidth: 500,
-    alignSelf: "center"
+    lineHeight: 24,
+    marginBottom: 8
   }
 });
 

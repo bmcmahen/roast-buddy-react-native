@@ -91,7 +91,7 @@ const TabNavigator = createBottomTabNavigator(
     Profile
   },
   {
-    initialRouteName: "Profile",
+    initialRouteName: "Activity",
     tabBarOptions: {
       style: {
         backgroundColor: config.colors.lightgray
@@ -167,7 +167,7 @@ const RootNavigator = createStackNavigator(
 class LoadingManager extends React.Component {
   constructor(props) {
     super(props);
-    props.navigation.navigate(props.settings.skipIntro ? "App" : "Onboard");
+    props.navigation.navigate(props.settings.skipIntro ? "Onboard" : "Onboard");
   }
 
   render() {

@@ -41,6 +41,7 @@ async function loadResourcesAsync() {
       require("./assets/icons/1024.png"),
       require("./src/Profile/coffee-4.jpg"),
       require("./src/Onboard/add-roast.mp4"),
+      require("./src/Onboard/save-roast.mp4"),
       require("./src/Profile/login.jpg")
     ]),
     Font.loadAsync({
