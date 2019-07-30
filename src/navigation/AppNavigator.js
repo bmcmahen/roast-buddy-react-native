@@ -2,7 +2,8 @@ import React from "react";
 import {
   createBottomTabNavigator,
   createAppContainer,
-  createStackNavigator
+  createStackNavigator,
+  createSwitchNavigator
 } from "react-navigation";
 import { View } from "react-native";
 import BeanList from "../BeanList";
@@ -14,11 +15,23 @@ import SelectBeans from "../RecordRoast/SelectBeans";
 import Blend from "../RecordRoast/Blend";
 import RecordRoast from "../RecordRoast";
 import ViewRoast from "../RoastList/ViewRoast";
+import { connect } from "react-redux";
 import EditBean from "../BeanList/EditBean";
+import Onboard from "../Onboard";
+
+const ActivityNavigator = createStackNavigator(
+  {
+    ActivityRoot: Home,
+    ViewRoast
+  },
+  {
+    initialRouteName: "ActivityRoot"
+  }
+);
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Activity: Home,
+    Activity: ActivityNavigator,
     Roasts: RoastList,
     Record: View,
     Beans: BeanList,
@@ -55,18 +68,25 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
+/**
+ * Handles tab views
+ */
+
 const RecorderNavigator = createStackNavigator({
   SelectBeans: { screen: SelectBeans },
   Blend: { screen: Blend },
   Recorder: { screen: RecordRoast }
 });
 
+/**
+ * Handles modal views
+ */
+
 const RootNavigator = createStackNavigator(
   {
     Root: TabNavigator,
     Recorder: RecorderNavigator,
-    Bean: EditBean,
-    ViewRoast: ViewRoast
+    Bean: EditBean
   },
   {
     headerMode: "none",
@@ -74,4 +94,36 @@ const RootNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(RootNavigator);
+/**
+ * Determine whether we should show the onboard
+ */
+
+class LoadingManager extends React.Component {
+  constructor(props) {
+    super(props);
+    props.navigation.navigate(props.settings.skipIntro ? "App" : "Onboard");
+  }
+
+  render() {
+    return null;
+  }
+}
+
+const Loading = connect(state => {
+  return {
+    settings: state.settings
+  };
+})(LoadingManager);
+
+const OnboardNavigator = createSwitchNavigator(
+  {
+    Loading,
+    App: RootNavigator,
+    Onboard: Onboard
+  },
+  {
+    initialRouteName: "Loading"
+  }
+);
+
+export default createAppContainer(OnboardNavigator);

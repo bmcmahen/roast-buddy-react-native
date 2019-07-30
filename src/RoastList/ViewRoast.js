@@ -16,18 +16,7 @@ import {
 import shortid from "shortid";
 import _ from "lodash";
 import { hideRecorder } from "../actions/recorder";
-import { LinearGradient as Gradient } from "expo-linear-gradient";
-import {
-  Base,
-  Text,
-  CloseIcon,
-  Icon,
-  MoreIcon,
-  NavTouchableIcon,
-  Button,
-  Divider,
-  config
-} from "../components";
+import { Base, Text, Icon, Button, Divider, config } from "../components";
 import Review from "./Review";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -35,6 +24,7 @@ import FavouriteButton from "./FavouriteButton";
 import RoastInfo from "./RoastInfo";
 import StarRating from "react-native-star-rating";
 import { toggleFavourite, addReview, removeCoffee } from "../actions/coffee";
+import { SafeAreaView } from "react-navigation";
 
 const ViewReviewComponent = ({ review, roastDate, panza }) => {
   const diff = moment.utc(roastDate).diff(moment.utc(review.date), "days");
@@ -83,6 +73,12 @@ class ViewRoast extends React.Component {
     };
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "View Roast"
+    };
+  };
+
   shouldComponentUpdate(nextProps) {
     if (!nextProps.roast) {
       return false;
@@ -103,267 +99,134 @@ class ViewRoast extends React.Component {
     return (
       <Base flex={1} backgroundColor="white">
         <StatusBar hidden />
-
-        {Platform.select({
-          ios: (
-            <Gradient
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 200
-              }}
-              colors={["black", "#444"]}
-            />
-          ),
-          android: (
-            <View
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 200,
-                backgroundColor: "black"
-              }}
-            />
-          )
-        })}
-
-        <KeyboardAvoidingView
-          style={{ flex: 1, backgroundColor: "transparent" }}
-          behavior="padding"
-        >
-          <Base
-            pt={1}
-            style={{ zIndex: 500 }}
-            row
-            justifyContent="space-between"
-            backgroundColor="transparent"
-            alignItems="center"
-          >
-            <Base width={60}>
-              <NavTouchableIcon
-                accessibilityLabel="Close"
-                onPress={() => {
-                  this.props.dispatch(hideRecorder);
-                }}
-              >
-                <CloseIcon color="white" />
-              </NavTouchableIcon>
-            </Base>
-            <Animated.View
-              style={{
-                opacity: this.state.scrollY.interpolate({
-                  inputRange: [150, 200],
-                  outputRange: [0, 1],
-                  extrapolate: "clamp"
-                })
-              }}
-            >
-              <Text large bold color="rgba(255,255,255,0.95)">
-                {name}
-              </Text>
-            </Animated.View>
-
-            <Base width={50}>
-              <NavTouchableIcon
-                accessibilityLabel="More options"
-                onPress={this._showMore.bind(this)}
-              >
-                <MoreIcon color="white" size={30} />
-              </NavTouchableIcon>
-            </Base>
-          </Base>
-
-          <Base
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              marginTop: 64,
-              height: 175,
-              right: 0
-            }}
-          >
-            <Animated.View
-              style={{
-                alignItems: "center",
-                paddingBottom: 16,
-                paddingTop: 30,
-                flex: 1,
-                opacity: this.state.scrollY.interpolate({
-                  inputRange: [0, 125],
-                  outputRange: [1, 0],
-                  extrapolate: "clamp"
-                }),
-                transform: [
-                  {
-                    translateY: this.state.scrollY.interpolate({
-                      inputRange: [0, 150],
-                      outputRange: [0, -55]
-                      // extrapolate: 'clamp'
-                    })
-                  }
-                ]
-              }}
-            >
-              <Base flex={1}>
-                <Text
-                  textAlign="center"
-                  numberOfLines={1}
-                  color="rgba(255,255,255,0.95)"
-                  bold
-                  giant
-                >
-                  {name}
-                </Text>
-                <Text
-                  textAlign="center"
-                  color="rgba(255,255,255,0.95)"
-                  mt={2}
-                  small
-                  bold
-                >
-                  {moment(roast.date).format("MMMM DD, YYYY")}
-                </Text>
-              </Base>
-            </Animated.View>
-          </Base>
-          <ScrollView
-            scrollIndicatorInsets={{ top: 175 }}
-            scrollEventThrottle={16}
-            stickyHeaderIndices={[0]}
-            onScroll={Animated.event([
-              { nativeEvent: { contentOffset: { y: this.state.scrollY } } }
-            ])}
-            keyboardShouldPersistTaps="always"
-            contentContainerStyle={{ paddingTop: 175 }}
+        <SafeAreaView style={{ flex: 1 }}>
+          <KeyboardAvoidingView
             style={{ flex: 1, backgroundColor: "transparent" }}
+            behavior="padding"
           >
-            <Base
-              style={[
-                {
-                  zIndex: 500,
-                  backgroundColor: "#fafafa",
-                  position: "absolute",
-                  height: 44,
-                  left: 0,
-                  right: 0
-                },
-                styles.tabs
-              ]}
-              row
-              alignItems="center"
-              justifyContent="center"
+            <ScrollView
+              stickyHeaderIndices={[0]}
+              keyboardShouldPersistTaps="always"
             >
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                accessible
-                accessibilityLabel="Like"
-                accessibilityTraits="button"
-                onPress={this._toggleFavouriteStatus.bind(this)}
-              >
-                <View style={[styles.tab, this.props.tabStyle]}>
-                  <Base row>
-                    <FavouriteButton
-                      disabled
-                      size={20}
-                      color={isFavourite ? "red" : "#333"}
-                      mr={1}
-                      selected={isFavourite}
-                    />
-                    <Text bold small color={isFavourite ? "red" : "black"}>
-                      {isFavourite ? "Liked" : "Like"}
-                    </Text>
-                  </Base>
-                </View>
-              </TouchableOpacity>
               <Base
-                height={30}
-                width={StyleSheet.hairlineWidth}
-                backgroundColor="#bbb"
-              />
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => {
-                  this.setState({ modal: true });
-                }}
-                accessible
-                accessibilityLabel="Add Tasting Notes"
-                accessibilityTraits="button"
+                style={[
+                  {
+                    zIndex: 500,
+                    backgroundColor: "#fafafa"
+                  },
+                  styles.tabs
+                ]}
+                row
+                alignItems="center"
+                justifyContent="center"
               >
-                <View style={[styles.tab, this.props.tabStyle]}>
-                  <Base row alignItems="center">
-                    <Icon name="plus" ml={0} size={30} mr={1} />
-                    <Text bold small>
+                <TouchableOpacity
+                  style={{ flex: 1 }}
+                  accessible
+                  accessibilityLabel="Like"
+                  accessibilityTraits="button"
+                  onPress={this._toggleFavouriteStatus.bind(this)}
+                >
+                  <View style={[styles.tab, this.props.tabStyle]}>
+                    <Base row>
+                      <FavouriteButton
+                        disabled
+                        size={20}
+                        color={isFavourite ? "red" : "#333"}
+                        mr={1}
+                        selected={isFavourite}
+                      />
+                      <Text bold small color={isFavourite ? "red" : "black"}>
+                        {isFavourite ? "Liked" : "Like"}
+                      </Text>
+                    </Base>
+                  </View>
+                </TouchableOpacity>
+                <Base
+                  height={30}
+                  width={StyleSheet.hairlineWidth}
+                  backgroundColor="#bbb"
+                />
+                <TouchableOpacity
+                  style={{ flex: 1 }}
+                  onPress={() => {
+                    this.setState({ modal: true });
+                  }}
+                  accessible
+                  accessibilityLabel="Add Tasting Notes"
+                  accessibilityTraits="button"
+                >
+                  <View style={[styles.tab, this.props.tabStyle]}>
+                    <Base row alignItems="center">
+                      <Icon name="plus" ml={0} size={30} mr={1} />
+                      <Text bold small>
+                        Tasting Notes
+                      </Text>
+                    </Base>
+                  </View>
+                </TouchableOpacity>
+              </Base>
+
+              {/* Roast description fields */}
+              <Base
+                backgroundColor="white"
+                style={{
+                  marginTop: 44,
+                  paddingBottom: 40,
+                  minHeight: screen.height - 200
+                }}
+              >
+                <RoastInfo roast={roast} />
+
+                <Base p={2} pr={0}>
+                  <Base pr={2}>
+                    <Text mb={1} small bold>
                       Tasting Notes
                     </Text>
                   </Base>
-                </View>
-              </TouchableOpacity>
-            </Base>
-
-            {/* Roast description fields */}
-            <Base
-              backgroundColor="white"
-              style={{
-                marginTop: 44,
-                paddingBottom: 40,
-                minHeight: screen.height - 200
-              }}
-            >
-              <RoastInfo roast={roast} />
-
-              <Base p={2} pr={0}>
-                <Base pr={2}>
-                  <Text mb={1} small bold>
-                    Tasting Notes
-                  </Text>
+                  {reviews.map((review, i) => (
+                    <ViewReview
+                      key={review._id}
+                      roastDate={this.props.roast.date}
+                      review={review}
+                    />
+                  ))}
+                  <Button
+                    small
+                    mt={2}
+                    mr={2}
+                    intent="primary"
+                    variant="outline"
+                    onPress={this._addReview.bind(this)}
+                  >
+                    Add Notes
+                  </Button>
                 </Base>
-                {reviews.map((review, i) => (
-                  <ViewReview
-                    key={review._id}
-                    roastDate={this.props.roast.date}
-                    review={review}
-                  />
-                ))}
-                <Button
-                  small
-                  mt={2}
-                  mr={2}
-                  primary
-                  outline
-                  onPress={this._addReview.bind(this)}
-                >
-                  Add Notes
-                </Button>
+                <Divider />
               </Base>
-              <Divider />
-            </Base>
-          </ScrollView>
-        </KeyboardAvoidingView>
-        <Modal
-          animationType="fade"
-          visible={this.state.modal}
-          onRequestClose={() => {
-            this.setState({ modal: false });
-          }}
-        >
-          <Base flex={1}>
+            </ScrollView>
+          </KeyboardAvoidingView>
+          <Modal
+            animationType="fade"
+            visible={this.state.modal}
+            onRequestClose={() => {
+              this.setState({ modal: false });
+            }}
+          >
             <Base flex={1}>
-              <Review
-                onRequestSave={content => {
-                  this._saveReview(content);
-                }}
-                onRequestClose={() => {
-                  this.setState({ modal: false });
-                }}
-              />
+              <Base flex={1}>
+                <Review
+                  onRequestSave={content => {
+                    this._saveReview(content);
+                  }}
+                  onRequestClose={() => {
+                    this.setState({ modal: false });
+                  }}
+                />
+              </Base>
             </Base>
-          </Base>
-        </Modal>
+          </Modal>
+        </SafeAreaView>
       </Base>
     );
   }
@@ -456,7 +319,8 @@ const styles = StyleSheet.create({
 });
 
 function getState(state, other) {
-  const { roastId } = other;
+  const roastId = other.navigation.getParam("id");
+
   return {
     roast: _.find(state.coffees.items, r => r._id === roastId)
   };

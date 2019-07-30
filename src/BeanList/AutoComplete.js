@@ -9,40 +9,6 @@ import {
 } from "react-native";
 
 class AutoComplete extends Component {
-  static propTypes = {
-    ...TextInput.propTypes,
-    /**
-     * These styles will be applied to the container which
-     * surrounds the autocomplete component.
-     */
-    containerStyle: View.propTypes.style,
-    /**
-     * Assign an array of data objects which should be
-     * rendered in respect to the entered text.
-     */
-    data: PropTypes.array,
-    /*
-     * These styles will be applied to the container which surrounds
-     * the textInput component.
-     */
-    inputContainerStyle: View.propTypes.style,
-    /**
-     * These style will be applied to the result list view.
-     */
-    listStyle: ListView.propTypes.style,
-    /**
-     * `renderItem` will be called to render the data objects
-     * which will be displayed in the result view below the
-     * text input.
-     */
-    renderItem: PropTypes.func,
-    /**
-     * `onShowResults` will be called when list is going to
-     * show/hide results.
-     */
-    onShowResults: PropTypes.func
-  };
-
   static defaultProps = {
     data: [],
     defaultValue: "",

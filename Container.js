@@ -9,7 +9,7 @@ import { View, AsyncStorage } from "react-native";
 import Debug from "react-native-debug";
 
 import Boot from "./Boot";
-import Intro from "./src/Onboard/Intro";
+import OnboardNavigator from "./src/navigation/AppNavigator";
 
 if (__DEV__) {
   console.log("enable");
@@ -85,7 +85,7 @@ export default class Container extends React.Component {
       <Provider store={this.state.store}>
         <View style={{ flex: 1 }}>
           <Boot />
-          <Intro />
+          <OnboardNavigator />
         </View>
       </Provider>
     );

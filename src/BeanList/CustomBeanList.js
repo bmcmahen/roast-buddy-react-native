@@ -33,8 +33,6 @@ class List extends React.Component {
 
     const sorted = _.sortBy(beans, "name");
 
-    console.log(sorted, this.getData(sorted));
-
     return (
       <SectionList
         renderItem={this._renderRow}

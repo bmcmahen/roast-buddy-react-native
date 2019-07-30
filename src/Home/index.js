@@ -26,7 +26,8 @@ import {
   MoreIcon,
   Icon,
   Button,
-  Text
+  Text,
+  NavTouchableIcon
 } from "../components";
 import { DEGREES } from "../data";
 import { connect } from "react-redux";
@@ -231,7 +232,7 @@ class PriorityRow extends React.Component {
                     LayoutAnimation.spring();
                     this.setState({ expanded: false, rating: null, text: "" });
                   }}
-                  variant="outline"
+                  variant="ghost"
                 >
                   Cancel
                 </Button>
@@ -287,23 +288,40 @@ class Home extends React.Component {
         {
           key: "help",
           label: "Show Help",
-          onPress: () => props.dispatch(showIntro())
+          onPress: () => props.navigation.navigate("Onboard")
         }
       ]
     };
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Recent Activity",
+      headerRight: (
+        <NavTouchableIcon
+          style={{
+            paddingLeft: 16,
+            ...Platform.select({
+              android: { paddingRight: 8 }
+            })
+          }}
+          accessibilityLabel="More options"
+          onPress={() => {
+            navigation.getParam("showMore")();
+          }}
+        >
+          <MoreIcon color="black" />
+        </NavTouchableIcon>
+      )
+    };
+  };
+
+  componentDidMount() {
+    this.props.navigation.setParams({ showMore: this._showMore.bind(this) });
+  }
+
   _showMore() {
     this.setState({ showMore: true });
-
-    // ActionSheetIOS.showActionSheetWithOptions({
-    //   options: ['Show Help', 'Cancel'],
-    //   cancelButtonIndex: 1
-    // },
-    // (i) => {
-    //   if (i === 1) return
-    //   this.props.dispatch(showIntro())
-    // })
   }
 
   _renderRoast(roast, i) {
@@ -312,7 +330,11 @@ class Home extends React.Component {
         key={roast._id}
         dispatch={this.props.dispatch}
         roast={roast}
-        onPress={() => this.props.dispatch(showRoast(roast._id))}
+        onPress={() => {
+          this.props.navigation.navigate("ViewRoast", {
+            id: roast._id
+          });
+        }}
       />
     );
   }
@@ -342,36 +364,39 @@ class Home extends React.Component {
             contentContainerStyle={{ paddingBottom: 0, paddingTop: 0 }}
             style={{ flex: 1, marginTop: 0 }}
           >
-            <Base justify="space-between" align="center" pr={2} row>
-              <Text giant thick m={2} mt={2}>
-                Recent Activity
-              </Text>
-              <TouchableIcon
-                style={{
-                  paddingLeft: 16,
-                  ...Platform.select({
-                    android: { paddingRight: 8 }
-                  })
-                }}
-                accessibilityLabel="More options"
-                onPress={this._showMore.bind(this)}
-              >
-                <MoreIcon color="black" />
-              </TouchableIcon>
-            </Base>
-            <Divider backgroundColor="rgba(0,0,0,0.25)" />
             {recentRoasts.length ? (
               <Base>
-                <Text p={2} pb={1} mt={2} large bold>
+                <Text
+                  p={2}
+                  pb={1}
+                  mt={2}
+                  small
+                  light
+                  bold
+                  style={{
+                    textTransform: "uppercase"
+                  }}
+                >
                   Recent Roasts
                 </Text>
+
                 {recentRoasts.map((roast, i) => this._renderRoast(roast, i))}
               </Base>
             ) : (
               <View>
                 <Base p={2}>
-                  <Text pb={1} mt={2} large bold>
-                    Recent roasts
+                  <Text
+                    p={2}
+                    pb={1}
+                    mt={2}
+                    small
+                    light
+                    bold
+                    style={{
+                      textTransform: "uppercase"
+                    }}
+                  >
+                    Recent Roasts
                   </Text>
                   <Text light small>
                     No roasts recorded.
@@ -382,8 +407,18 @@ class Home extends React.Component {
             )}
             {hasRoasts && (
               <View>
-                <Text p={2} pb={1} mt={2} large bold>
-                  Roast Statistics
+                <Text
+                  p={2}
+                  pb={1}
+                  mt={2}
+                  small
+                  light
+                  bold
+                  style={{
+                    textTransform: "uppercase"
+                  }}
+                >
+                  Recent Statistics
                 </Text>
                 <Divider backgroundColor="rgba(0,0,0,0.25)" />
                 <Base backgroundColor="white">
@@ -401,8 +436,18 @@ class Home extends React.Component {
             {!hasRoasts && (
               <View>
                 <Base p={2}>
-                  <Text pb={1} mt={2} large bold>
-                    Roast statistics
+                  <Text
+                    p={2}
+                    pb={1}
+                    mt={2}
+                    small
+                    light
+                    bold
+                    style={{
+                      textTransform: "uppercase"
+                    }}
+                  >
+                    Recent Statistics
                   </Text>
                   <Text light small>
                     No roasts recorded.

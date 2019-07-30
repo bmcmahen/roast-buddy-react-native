@@ -1,100 +1,138 @@
+// @flow
+
 import React from "react";
-import { Animated, StyleSheet } from "react-native";
-import { Button, Base, Image } from "../components";
+import _ from "lodash";
+import TabView from "react-native-scrollable-tab-view";
+import { View, Animated, StatusBar, Platform } from "react-native";
+import Home from "./Greeting";
+import TutorialPane from "./TutorialPane1";
+import TutorialPane2 from "./TutorialPane2";
+import TutorialPane3 from "./TutorialPane3";
+import TutorialPane4 from "./TutorialPane4";
+import TutorialPane5 from "./TutorialPane5";
+import { connect } from "react-redux";
+import { skipIntro } from "../actions/settings";
 
-class Onboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      opacity: new Animated.Value(0)
-    };
-  }
-
-  componentDidMount() {
-    this.fadeIn();
-  }
-
-  fadeIn() {
-    Animated.timing(this.state.opacity, { toValue: 1, duration: 1000 }).start();
-  }
-
-  fadeOut() {
-    Animated.timing(this.state.opacity, { toValue: 0, duration: 1000 }).start();
-  }
-
+class TabBar extends React.Component {
   render() {
     return (
-      <Base flex={1} style={{ overflow: "hidden" }}>
-        <Image
-          fade
-          resizeMode="cover"
-          source={require("../Profile/coffee-4.jpg")}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            opacity: this.state.opacity
-          }}
-        />
-        <Base flex={1} align="center" justify="center" column p={2} pt={4}>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/icons/1024.png")}
-          />
-          <Animated.Text style={styles.title}>Roast Buddy</Animated.Text>
-          <Animated.Text style={styles.blurb}>
-            Your coffee roasting companion.
-          </Animated.Text>
-        </Base>
-        <Base height={300} column align="center" px={3}>
-          <Button
-            block
-            size="large"
-            intent="primary"
-            onPress={() => {
-              this.props.onRequestNext();
+      <View
+        style={{
+          zIndex: 500,
+          flexDirection: "row",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 30,
+          justifyContent: "center"
+        }}
+      >
+        {this.props.tabs.map((tab, i) => (
+          <View
+            key={i}
+            style={{
+              width: 6,
+              height: 6,
+              borderWidth: 1,
+              borderColor: "white",
+              backgroundColor:
+                this.props.activeTab === i ? "white" : "transparent",
+              borderRadius: 3,
+              margin: 5
             }}
-            mt={3}
-            alignSelf="center"
-          >
-            Learn how Roast Buddy works
-          </Button>
-          <Button
-            alignSelf="center"
-            textColor="white"
-            variant="ghost"
-            onPress={this.props.onFinish}
-            mt={2}
-          >
-            Skip intro
-          </Button>
-        </Base>
-      </Base>
+          />
+        ))}
+      </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 35,
-    fontWeight: "bold",
-    backgroundColor: "transparent",
-    color: "white",
-    textAlign: "center"
-  },
-  blurb: {
-    marginTop: 16,
-    fontSize: 17,
-    textAlign: "center",
-    backgroundColor: "transparent",
-    color: "rgba(255,255,255,0.9)"
-  },
-  logo: {
-    width: 100,
-    height: 100
+class Greeting extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTab: 0
+    };
   }
-});
 
-export default Onboard;
+  skip = () => {
+    // kinda lame, but whatevs
+    this.props.dispatch(skipIntro());
+    this.props.navigation.navigate("App");
+  };
+
+  render() {
+    return (
+      <View style={{ flex: 1, backgroundColor: "black" }}>
+        {Platform.OS === "ios" && <StatusBar barStyle="light-content" />}
+
+        <TabView
+          ref="tabview"
+          prerenderingSiblingsNumber={0}
+          style={{ backgroundColor: "transparent" }}
+          renderTabBar={() => <TabBar />}
+          onChangeTab={i => {
+            this.setState({ currentTab: i.i });
+          }}
+        >
+          <View style={{ flex: 1 }} tabLabel="Home">
+            <Home
+              onRequestNext={() => {
+                this.refs.tabview.goToPage(1);
+              }}
+              onFinish={this.skip}
+            />
+          </View>
+          <View style={{ flex: 1 }} tabLabel="Tutorial">
+            <TutorialPane
+              isActive={this.state.currentTab === 1}
+              onRequestNext={() => {
+                this.refs.tabview.goToPage(2);
+              }}
+            />
+          </View>
+          <View style={{ flex: 1 }} tabLabel="Tutorial-2">
+            <TutorialPane3
+              isActive={this.state.currentTab === 2}
+              onRequestNext={() => {
+                this.refs.tabview.goToPage(3);
+              }}
+            />
+          </View>
+          <View style={{ flex: 1 }} tabLabel="Tutorial-3">
+            <TutorialPane2
+              isActive={this.state.currentTab === 3}
+              onRequestNext={() => {
+                this.refs.tabview.goToPage(4);
+              }}
+            />
+          </View>
+          <View style={{ flex: 1 }} tabLabel="Tutorial-4">
+            <TutorialPane4
+              isActive={this.state.currentTab === 4}
+              onRequestNext={() => {
+                this.refs.tabview.goToPage(5);
+              }}
+            />
+          </View>
+          <View style={{ flex: 1 }} tabLabel="Tutorial-5">
+            <TutorialPane5
+              isActive={this.state.currentTab === 5}
+              onRequestNext={() => {
+                this.skip();
+              }}
+            />
+          </View>
+        </TabView>
+      </View>
+    );
+  }
+}
+
+function getState(state) {
+  return {
+    settings: state.settings
+  };
+}
+
+export default connect(getState)(Greeting);
