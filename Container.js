@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import reducers from "./data";
+import reducers from "./src/data";
 import thunk from "redux-thunk";
 import createLogger from "redux-logger";
 import { persistStore, autoRehydrate } from "redux-persist";
@@ -9,7 +9,7 @@ import { View, AsyncStorage } from "react-native";
 import Debug from "react-native-debug";
 
 import Boot from "./Boot";
-import Intro from "./Onboard/Intro";
+import Intro from "./src/Onboard/Intro";
 
 if (__DEV__) {
   console.log("enable");

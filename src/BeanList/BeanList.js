@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { FlatList } from "react-native";
-import { Divider, Text, TouchableRow } from "../src/components";
+import { Divider, Text, TouchableRow } from "../components";
 import { fetchBeans } from "../actions/beans";
 import { push } from "../actions/nav";
 

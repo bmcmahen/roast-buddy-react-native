@@ -1,8 +1,8 @@
 import React from "react";
 import { TouchableHighlight, View } from "react-native";
-import { Text, Base, Icon } from "../src/components";
+import { Text, Base, Icon } from "../components";
 import moment from "moment";
-import { DEGREES } from "../src/data";
+import { DEGREES } from "../data";
 import FavouriteButton from "./FavouriteButton";
 import { toggleFavourite } from "../actions/coffee";
 import { connect } from "react-redux";

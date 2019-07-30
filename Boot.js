@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { NetInfo } from "react-native";
-import { fetchBeans } from "./actions/beans";
-import { fetchCoffees } from "./actions/coffee";
-import { syncAllLocalChanges } from "./actions/coffee";
+import { fetchBeans } from "./src/actions/beans";
+import { fetchCoffees } from "./src/actions/coffee";
+import { syncAllLocalChanges } from "./src/actions/coffee";
 
 class Boot extends React.Component {
   componentDidMount() {

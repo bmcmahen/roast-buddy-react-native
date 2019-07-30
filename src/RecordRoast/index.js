@@ -29,7 +29,7 @@ import {
 import { StackActions } from "react-navigation";
 import Recorder from "./Recorder";
 import Degrees from "./Degrees";
-import Menu from "../../utils/Menu";
+import Menu from "../utils/Menu";
 
 const propsForKeys = {
   "Roast Weight": {
@@ -56,7 +56,7 @@ const propsForKeys = {
   }
 };
 
-import { DEGREES } from "../../data";
+import { DEGREES } from "../data";
 import { RoastWeight, RoastTemperature, RoastDuration } from "./MetaFields";
 import { addCoffee } from "../actions/coffee";
 

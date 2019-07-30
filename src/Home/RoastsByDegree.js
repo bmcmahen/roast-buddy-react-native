@@ -3,7 +3,7 @@ import React from "react";
 import _ from "lodash";
 import { View, Animated, Dimensions, LayoutAnimation } from "react-native";
 import { Text, Base } from "../components";
-import { DEGREES } from "../../data";
+import { DEGREES } from "../data";
 
 class Deg extends React.Component {
   constructor(props) {
