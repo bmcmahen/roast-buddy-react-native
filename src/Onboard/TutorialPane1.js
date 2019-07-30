@@ -55,7 +55,7 @@ class TutorialPane extends React.Component {
                 </Text>
               </View>
               <View>
-                <Text style={[styles.h2]}>Some green coffee</Text>
+                <Text style={[styles.h2]}>Some green coffee.</Text>
                 <Text style={styles.subheading}>
                   You can find green, unroasted coffee online. Sometimes you can
                   ask your local coffee roaster for some green beans, too.
