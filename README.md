@@ -9,7 +9,7 @@
 </div>
 <br />
 
-Roast Buddy is a mobile app which helps you keep track of your coffee roasting. It's built using React-Native.
+Roast Buddy is a mobile app which helps you keep track of your coffee roasting. It's built using react-native and redux.
 
 ## Development
 
