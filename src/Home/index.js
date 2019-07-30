@@ -24,7 +24,9 @@ import {
   Icon,
   Button,
   Text,
-  NavTouchableIcon
+  NavTouchableIcon,
+  config,
+  SectionHeader
 } from "../components";
 import { DEGREES } from "../data";
 import { connect } from "react-redux";
@@ -101,7 +103,7 @@ class PriorityRow extends React.Component {
         style={{
           paddingVertical: 12,
           borderTopWidth: StyleSheet.hairlineWidth,
-          borderTopColor: "rgba(0,0,0,0.15)"
+          borderTopColor: config.borderColor
         }}
         key={review._id}
       >
@@ -157,7 +159,7 @@ class PriorityRow extends React.Component {
             }}
           >
             <Base flex={1} style={{ paddingVertical: 10 }}>
-              <Text numberOfLines={1} small bold>
+              <Text numberOfLines={1} bold>
                 {name}
               </Text>
               <Text numberOfLines={1} small style={{ lineHeight: 20 }} light>
@@ -283,6 +285,9 @@ class Home extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Recent Activity",
+      headerStyle: {
+        backgroundColor: "#f8f8f8"
+      },
       headerRight: (
         <NavTouchableIcon
           style={{
@@ -338,7 +343,7 @@ class Home extends React.Component {
       Platform.OS === "ios" ? KeyboardAwareScrollView : ScrollView;
 
     return (
-      <Base flex={1} backgroundColor="#fafafa">
+      <Base flex={1} backgroundColor={config.colors.gray}>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView style={{ flex: 1 }}>
           <Menu
@@ -358,49 +363,24 @@ class Home extends React.Component {
           >
             {recentRoasts.length ? (
               <Base>
-                <Text
-                  p={2}
-                  pb={1}
-                  mt={2}
-                  small
-                  light
-                  bold
-                  style={{
-                    textTransform: "uppercase"
-                  }}
-                >
-                  Recent Roasts
-                </Text>
-
+                <SectionHeader mt={2}>Recent Roasts</SectionHeader>
                 {recentRoasts.map((roast, i) => this._renderRoast(roast, i))}
               </Base>
             ) : null}
             {hasRoasts && (
               <View>
-                <Text
-                  p={2}
-                  pb={1}
-                  mt={2}
-                  small
-                  light
-                  bold
-                  style={{
-                    textTransform: "uppercase"
-                  }}
-                >
-                  Roast Statistics
-                </Text>
-                <Divider backgroundColor="rgba(0,0,0,0.25)" />
+                <SectionHeader mt={1}>Roast Statistics</SectionHeader>
+                <Divider backgroundColor={config.borderColor} />
                 <Base backgroundColor="white">
                   <Base p={1}>
                     <RoastsByDegree />
                   </Base>
-                  <Divider backgroundColor="rgba(0,0,0,0.25)" mt={2} />
+                  <Divider backgroundColor={config.borderColor} mt={2} />
                   <Base p={1}>
                     <RoastsByRegion />
                   </Base>
                 </Base>
-                <Divider backgroundColor="rgba(0,0,0,0.25)" />
+                <Divider backgroundColor={config.borderColor} />
               </View>
             )}
           </ScrollComponent>

@@ -102,8 +102,8 @@ class RoastsByRegion extends React.Component {
   render() {
     return (
       <View style={{ marginBottom: 10 }}>
-        <Text mb={2} ml={1} bold small mt={2}>
-          Which regions are your coffees from?
+        <Text mb={2} ml={1} bold mt={2}>
+          Frequently used regions
         </Text>
         {this.state.showPreview ? <View /> : this._renderRegions()}
       </View>

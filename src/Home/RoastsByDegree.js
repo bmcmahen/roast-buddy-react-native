@@ -157,8 +157,8 @@ class RoastsByDegree extends React.Component {
   render() {
     return (
       <View>
-        <Text mb={2} ml={1} small bold mt={2}>
-          How dark do you roast your coffee?
+        <Text mb={2} ml={1} bold mt={2}>
+          Preferred roast profile
         </Text>
         {this.state.showPreview ? <View /> : this._renderDegrees()}
       </View>

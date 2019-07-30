@@ -104,7 +104,7 @@ class Blend extends React.Component {
         : null;
 
     return (
-      <Base flex={1} backgroundColor="white">
+      <Base flex={1} backgroundColor={config.colors.gray}>
         <Modal
           animationType="fade"
           transparent
@@ -138,7 +138,11 @@ class Blend extends React.Component {
           <InputGroup
             inset={16}
             mt={3}
-            style={{ flex: 0, flexDirection: "column" }}
+            style={{
+              backgroundColor: "white",
+              flex: 0,
+              flexDirection: "column"
+            }}
           >
             <InputRow
               value={this.props.roast.name}

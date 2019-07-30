@@ -34,9 +34,11 @@ const styles = StyleSheet.create({
   header: {
     padding: 7,
     paddingLeft: 15,
+
     overflow: "hidden"
   },
   headerText: {
+    textTransform: "uppercase",
     fontWeight: "400",
     color: "#999",
     fontSize: 13,

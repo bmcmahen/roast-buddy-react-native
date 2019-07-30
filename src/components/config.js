@@ -2,16 +2,16 @@
 // https://github.com/jxnblk/rebass/blob/master/src/config.js
 
 const baseColors = {
-  blue: '#08e',
-  black: '#111',
-  white: '#fff',
-  gray: '#fafafa',
-  midgray: '#8F8E94',
-  darkgray: '#1e1e1e',
-  red: '#c30016',
-  orange: '#f70',
-  green: '#1c7'
-}
+  blue: "#08e",
+  black: "#111",
+  white: "#fff",
+  gray: "#f1f0f7",
+  midgray: "#8F8E94",
+  darkgray: "#1e1e1e",
+  red: "#c30016",
+  orange: "#f70",
+  green: "#1c7"
+};
 
 const colors = {
   ...baseColors,
@@ -25,45 +25,21 @@ const colors = {
   warning: baseColors.orange,
   error: baseColors.red,
   light: baseColors.midgray
-}
+};
 
-const fontSizes = [
-  48,
-  32,
-  24,
-  20,
-  17,
-  15,
-  12
-]
+const fontSizes = [48, 32, 24, 20, 17, 15, 12];
 
-const lineHeights = [
-  0.7,
-  1,
-  1.2,
-  1.5,
-  2,
-  2.5,
-  3
-]
+const lineHeights = [0.7, 1, 1.2, 1.5, 2, 2.5, 3];
 
+const scale = [0, 8, 16, 32, 64];
 
-const scale = [
-  0,
-  8,
-  16,
-  32,
-  64
-]
+const inverted = colors.white;
 
-const inverted = colors.white
-
-const bold = '600'
-const thick = '800'
-const thin = '300'
-const borderColor = 'rgba(0, 0, 0, 0.25)'
-const borderRadius = 2
-
+const bold = "600";
+const thick = "800";
+const thin = "300";
+const borderColor = "rgba(0, 0, 0, 0.25)";
+const borderRadius = 2;
 
 const config = {
   fontSizes,
@@ -76,6 +52,6 @@ const config = {
   bold,
   thin,
   scale
-}
+};
 
-export default config
+export default config;

@@ -65,8 +65,11 @@ const TabNavigator = createBottomTabNavigator(
     Profile
   },
   {
-    initialRouteName: "Roasts",
+    initialRouteName: "Activity",
     tabBarOptions: {
+      style: {
+        backgroundColor: "#f8f8f8"
+      },
       activeTintColor: config.colors.primary
     },
     defaultNavigationOptions: ({ navigation }) => ({
