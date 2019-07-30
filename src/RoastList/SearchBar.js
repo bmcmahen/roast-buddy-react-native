@@ -1,7 +1,7 @@
 //@flow
 import React from "react";
 import { TextInput, StyleSheet, View } from "react-native";
-import { Icon } from "../components";
+import { Icon, config } from "../components";
 
 class SearchBar extends React.Component {
   onFocus() {
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     padding: 0,
     height: 55,
     margin: 0,
+    backgroundColor: config.colors.white,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16

@@ -9,7 +9,9 @@ import Container from "./Container";
 YellowBox.ignoreWarnings([
   "Require cycle:",
   "ListView is deprecated",
-  "Remote debugger"
+  "Remote debugger",
+  "Each child",
+  "Keys should be"
 ]);
 
 export default function App(props) {

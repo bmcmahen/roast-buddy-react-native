@@ -1,30 +1,24 @@
 import React from "react";
 import {
-  View,
   KeyboardAvoidingView,
   ScrollView,
-  StyleSheet,
   ActionSheetIOS,
   Platform,
   Dimensions,
-  TouchableOpacity,
-  StatusBar,
+  LayoutAnimation,
   Animated,
-  Alert,
-  Modal
+  Alert
 } from "react-native";
-import shortid from "shortid";
 import _ from "lodash";
 import { hideRecorder } from "../actions/recorder";
-import { Base, Text, Icon, Button, Divider, config } from "../components";
-import Review from "./Review";
+import { Base, Text, Button, Divider, config } from "../components";
 import moment from "moment";
 import { connect } from "react-redux";
-import FavouriteButton from "./FavouriteButton";
 import RoastInfo from "./RoastInfo";
 import StarRating from "react-native-star-rating";
 import { toggleFavourite, addReview, removeCoffee } from "../actions/coffee";
 import { SafeAreaView } from "react-navigation";
+import { ReviewInput } from "./ReviewInput";
 
 const ViewReviewComponent = ({ review, roastDate, panza }) => {
   const diff = moment.utc(roastDate).diff(moment.utc(review.date), "days");
@@ -75,7 +69,7 @@ class ViewRoast extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "View Roast"
+      title: navigation.getParam("title")
     };
   };
 
@@ -87,18 +81,15 @@ class ViewRoast extends React.Component {
     return true;
   }
 
+  componentDidMount() {}
+
   render() {
     const screen = Dimensions.get("window");
     const { roast } = this.props;
-    const { reviews, isFavourite, beans } = roast;
-    const isBlend = beans.length > 1;
-    // const isMelange = roast.length > 1;
-    const beanText = beans.map(b => b.name).join(", ");
-    const name = isBlend ? roast.name : beanText;
+    const { reviews, isFavourite } = roast;
 
     return (
       <Base flex={1} backgroundColor="white">
-        <StatusBar hidden />
         <SafeAreaView style={{ flex: 1 }}>
           <KeyboardAvoidingView
             style={{ flex: 1, backgroundColor: "transparent" }}
@@ -108,74 +99,8 @@ class ViewRoast extends React.Component {
               stickyHeaderIndices={[0]}
               keyboardShouldPersistTaps="always"
             >
-              <Base
-                style={[
-                  {
-                    zIndex: 500,
-                    backgroundColor: "#fafafa"
-                  },
-                  styles.tabs
-                ]}
-                row
-                alignItems="center"
-                justifyContent="center"
-              >
-                <TouchableOpacity
-                  style={{ flex: 1 }}
-                  accessible
-                  accessibilityLabel="Like"
-                  accessibilityTraits="button"
-                  onPress={this._toggleFavouriteStatus.bind(this)}
-                >
-                  <View style={[styles.tab, this.props.tabStyle]}>
-                    <Base row>
-                      <FavouriteButton
-                        disabled
-                        size={20}
-                        color={isFavourite ? "red" : "#333"}
-                        mr={1}
-                        selected={isFavourite}
-                      />
-                      <Text bold small color={isFavourite ? "red" : "black"}>
-                        {isFavourite ? "Liked" : "Like"}
-                      </Text>
-                    </Base>
-                  </View>
-                </TouchableOpacity>
-                <Base
-                  height={30}
-                  width={StyleSheet.hairlineWidth}
-                  backgroundColor="#bbb"
-                />
-                <TouchableOpacity
-                  style={{ flex: 1 }}
-                  onPress={() => {
-                    this.setState({ modal: true });
-                  }}
-                  accessible
-                  accessibilityLabel="Add Tasting Notes"
-                  accessibilityTraits="button"
-                >
-                  <View style={[styles.tab, this.props.tabStyle]}>
-                    <Base row alignItems="center">
-                      <Icon name="plus" ml={0} size={30} mr={1} />
-                      <Text bold small>
-                        Tasting Notes
-                      </Text>
-                    </Base>
-                  </View>
-                </TouchableOpacity>
-              </Base>
-
               {/* Roast description fields */}
-              <Base
-                backgroundColor="white"
-                style={{
-                  marginTop: 44,
-                  paddingBottom: 40,
-                  minHeight: screen.height - 200
-                }}
-              >
+              <Base backgroundColor="white" style={{}}>
                 <RoastInfo roast={roast} />
 
                 <Base p={2} pr={0}>
@@ -191,41 +116,30 @@ class ViewRoast extends React.Component {
                       review={review}
                     />
                   ))}
-                  <Button
-                    small
-                    mt={2}
-                    mr={2}
-                    intent="primary"
-                    variant="outline"
-                    onPress={this._addReview.bind(this)}
-                  >
-                    Add Notes
-                  </Button>
                 </Base>
+                {this.state.modal ? (
+                  <ReviewInput
+                    onRequestAdd={content => {
+                      this._saveReview(content);
+                    }}
+                    onRequestCancel={() => {
+                      this.setState({ modal: false });
+                    }}
+                  />
+                ) : (
+                  <Base px={2} pb={2}>
+                    <Button
+                      intent="primary"
+                      onPress={this._addReview.bind(this)}
+                    >
+                      Add Notes
+                    </Button>
+                  </Base>
+                )}
                 <Divider />
               </Base>
             </ScrollView>
           </KeyboardAvoidingView>
-          <Modal
-            animationType="fade"
-            visible={this.state.modal}
-            onRequestClose={() => {
-              this.setState({ modal: false });
-            }}
-          >
-            <Base flex={1}>
-              <Base flex={1}>
-                <Review
-                  onRequestSave={content => {
-                    this._saveReview(content);
-                  }}
-                  onRequestClose={() => {
-                    this.setState({ modal: false });
-                  }}
-                />
-              </Base>
-            </Base>
-          </Modal>
         </SafeAreaView>
       </Base>
     );
@@ -271,17 +185,11 @@ class ViewRoast extends React.Component {
   }
 
   _addReview() {
+    LayoutAnimation.spring();
     this.setState({ modal: true });
   }
 
-  _saveReview(content) {
-    const review = {
-      _id: shortid.generate(),
-      date: moment.utc().format(),
-      value: content.notes,
-      rating: content.rating
-    };
-
+  _saveReview(review) {
     const reviews = [...this.props.roast.reviews, review];
     this.props.dispatch(addReview(this.props.roast._id, reviews));
     this.setState({ modal: false });
@@ -292,31 +200,6 @@ class ViewRoast extends React.Component {
     this.props.dispatch(toggleFavourite(this.props.roast._id, !isFav));
   }
 }
-
-const styles = StyleSheet.create({
-  tab: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fafafa",
-
-    paddingBottom: 10,
-    paddingTop: 10
-  },
-  tabs: {
-    height: 44,
-    paddingTop: 0,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: "rgba(0,0,0,0.15)",
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    backgroundColor: "#fafafa",
-    borderBottomColor: "rgba(0,0,0,0.15)"
-  }
-});
 
 function getState(state, other) {
   const roastId = other.navigation.getParam("id");

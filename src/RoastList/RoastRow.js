@@ -41,22 +41,17 @@ const RoastRow = ({ dispatch, roast, onPress, children }) => {
           </Text>
           {children}
         </Base>
-        <Base
-          row
-          alignSelf="stretch"
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Base row align="center">
           <FavouriteButton
             size={25}
-            mr={2}
             selected={roast.isFavourite}
             onChange={() => {
               dispatch(toggleFavourite(roast._id, !roast.isFavourite));
             }}
           />
+
+          <Icon name="chevron-right" ml={2} size={25} color="light" />
         </Base>
-        <Icon name="chevron-right" alignSelf="center" size={15} color="light" />
       </View>
     </TouchableHighlight>
   );

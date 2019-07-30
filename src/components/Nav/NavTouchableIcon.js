@@ -30,7 +30,12 @@ const NavTouchableIcon = props => {
 
   return (
     <NavIconContainer>
-      <TouchableIcon onPress={props.onPress}>{clone}</TouchableIcon>
+      <TouchableIcon
+        accessibilityLabel={props.accessibilityLabel}
+        onPress={props.onPress}
+      >
+        {clone}
+      </TouchableIcon>
     </NavIconContainer>
   );
 };

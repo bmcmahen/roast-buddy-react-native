@@ -2,27 +2,16 @@ import React from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import AllRoasts from "./AllRoasts";
-import { Base, NavBar, BackIcon, NavTouchableIcon } from "../components";
+import { Base } from "../components";
 
 class BeanSublist extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam("name")
+  });
+
   render() {
     return (
       <Base flex={1} backgroundColor="white">
-        <NavBar
-          backgroundColor="#e9e9ef"
-          title={this.props.title}
-          LeftButton={
-            <NavTouchableIcon
-              accessible
-              accessibilityLabel="Back"
-              onPress={() => {
-                this.props.dispatch({ type: "POP" });
-              }}
-            >
-              <BackIcon color="black" />
-            </NavTouchableIcon>
-          }
-        />
         <AllRoasts
           roasts={this.props.roasts}
           filter={r => r}
@@ -34,7 +23,7 @@ class BeanSublist extends React.Component {
 }
 
 function getState(state, props) {
-  const { beanName } = props;
+  const beanName = props.navigation.getParam("name");
 
   // sorta expensive...
   // maybe store bean id indexes, allowing for

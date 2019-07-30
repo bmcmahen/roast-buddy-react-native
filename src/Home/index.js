@@ -34,9 +34,9 @@ import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import RoastsByRegion from "./RoastsByContinent";
 import RoastsByDegree from "./RoastsByDegree";
-import { showRoast } from "../actions/recorder";
 import FavouriteButton from "../RoastList/FavouriteButton";
 import { SafeAreaView } from "react-navigation";
+import { ReviewInput } from "../RoastList/ReviewInput";
 
 // on first launch, fade in the title, and description, and start
 // the tutorial automatically. have a button that says 'skip this tutorial'.
@@ -184,81 +184,70 @@ class PriorityRow extends React.Component {
         {roast.reviews.map(this._renderReview.bind(this))}
         <Divider inset={16} />
         {this.state.expanded ? (
-          <Base pt={1}>
-            <TextInput
-              multiline
-              underlineColorAndroid="transparent"
-              autoFocus
-              maxLength={300}
-              value={this.state.text}
-              style={{
-                flex: 1,
-                height: this.state.expanded ? 80 : 30,
-                paddingHorizontal: 16,
-                paddingVertical: 16,
-                textAlignVertical: "top",
-                fontSize: 16,
-                lineHeight: 20
-              }}
-              placeholder={
-                this.state.expanded ? "Your notes" : "Add tasting notes"
-              }
-              onChangeText={text => this.setState({ text })}
-              onFocus={() => {
-                // LayoutAnimation.spring()
-                this.setState({ expanded: true });
-              }}
-            />
-            <Base p={2} row justify="space-between" alignItems="center">
-              <StarRating
-                rating={this.state.rating}
-                maxStars={5}
-                iconSet="Ionicons"
-                emptyStar="ios-star-outline"
-                starColor={"green"}
-                emptyStarColor="#aaa"
-                fullStar="ios-star"
-                halfStar="ios-star-half"
-                starSize={23}
-                selectedStar={stars => {
-                  this.setState({ rating: stars });
-                }}
-              />
-              <Base row>
-                <Button
-                  small
-                  mr={1}
-                  onPress={() => {
-                    LayoutAnimation.spring();
-                    this.setState({ expanded: false, rating: null, text: "" });
-                  }}
-                  variant="ghost"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onPress={() => {
-                    const review = {
-                      _id: shortid.generate(),
-                      date: moment.utc().format(),
-                      value: this.state.text,
-                      rating: this.state.rating
-                    };
-
-                    const reviews = [...roast.reviews, review];
-                    this.props.dispatch(addReview(roast._id, reviews));
-                    this.setState({ expanded: false, rating: null, text: "" });
-                  }}
-                  disabled={!this.state.text}
-                  small
-                  intent="primary"
-                >
-                  Post Review
-                </Button>
-              </Base>
-            </Base>
-          </Base>
+          <ReviewInput
+            onRequestCancel={() => this.setState({ expanded: false })}
+            onRequestAdd={review => {
+              const reviews = [...roast.reviews, review];
+              this.props.dispatch(addReview(roast._id, reviews));
+              this.setState({ expanded: false });
+            }}
+          />
         ) : (
+          // <Base pt={1}>
+          //   <TextInput
+          //     multiline
+          //     underlineColorAndroid="transparent"
+          //     autoFocus
+          //     maxLength={300}
+          //     value={this.state.text}
+          //     style={{
+          //       flex: 1,
+          //       height: 80,
+          //       paddingHorizontal: 16,
+          //       paddingVertical: 16,
+          //       textAlignVertical: "top",
+          //       fontSize: 16,
+          //       lineHeight: 20
+          //     }}
+          //     placeholder={"Your notes"}
+          //     onChangeText={text => this.setState({ text })}
+          //   />
+          //   <Base p={2} row justify="space-between" alignItems="center">
+          //     <Base row>
+          //       <Base flex={1} />
+          //       <Button
+          //         small
+          //         mr={1}
+          //         onPress={() => {
+          //           LayoutAnimation.spring();
+          //           this.setState({ expanded: false, rating: null, text: "" });
+          //         }}
+          //         variant="ghost"
+          //       >
+          //         Cancel
+          //       </Button>
+          //       <Button
+          //         onPress={() => {
+          //           const review = {
+          //             _id: shortid.generate(),
+          //             date: moment.utc().format(),
+          //             value: this.state.text,
+          //             rating: this.state.rating
+          //           };
+
+          //           const reviews = [...roast.reviews, review];
+          //           this.props.dispatch(addReview(roast._id, reviews));
+          //           this.setState({ expanded: false, rating: null, text: "" });
+          //         }}
+          //         disabled={!this.state.text}
+          //         small
+          //         intent="primary"
+          //       >
+          //         Post Review
+          //       </Button>
+          //     </Base>
+          //   </Base>
+          // </Base>
           <TouchableOpacity
             style={{ paddingHorizontal: 16, paddingVertical: 12 }}
             onPress={() => {
@@ -325,6 +314,11 @@ class Home extends React.Component {
   }
 
   _renderRoast(roast, i) {
+    const { beans } = roast;
+    const isBlend = beans.length > 1;
+    const beanText = beans.map(b => b.name).join(", ");
+    const name = isBlend ? roast.name : beanText;
+
     return (
       <PriorityRow
         key={roast._id}
@@ -332,7 +326,8 @@ class Home extends React.Component {
         roast={roast}
         onPress={() => {
           this.props.navigation.navigate("ViewRoast", {
-            id: roast._id
+            id: roast._id,
+            title: name
           });
         }}
       />
@@ -418,7 +413,7 @@ class Home extends React.Component {
                     textTransform: "uppercase"
                   }}
                 >
-                  Recent Statistics
+                  Roast Statistics
                 </Text>
                 <Divider backgroundColor="rgba(0,0,0,0.25)" />
                 <Base backgroundColor="white">
@@ -447,7 +442,7 @@ class Home extends React.Component {
                       textTransform: "uppercase"
                     }}
                   >
-                    Recent Statistics
+                    Roast Statistics
                   </Text>
                   <Text light small>
                     No roasts recorded.

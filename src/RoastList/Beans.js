@@ -36,12 +36,8 @@ export default class Beans extends React.Component {
       <TouchableHighlight
         underlayColor={"rgba(0,0,0,0.1)"}
         onPress={() => {
-          this.props.dispatch({
-            type: "PUSH",
-            route: {
-              key: "List Bean Roasts",
-              beanName: name
-            }
+          this.props.navigation.navigate("BeanRoasts", {
+            name
           });
         }}
       >

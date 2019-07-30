@@ -18,6 +18,18 @@ import ViewRoast from "../RoastList/ViewRoast";
 import { connect } from "react-redux";
 import EditBean from "../BeanList/EditBean";
 import Onboard from "../Onboard";
+import BeanSublist from "../RoastList/BeanSublist";
+
+const RoastsNavigator = createStackNavigator(
+  {
+    RoastsRoot: RoastList,
+    ViewRoast,
+    BeanRoasts: BeanSublist
+  },
+  {
+    initialRouteName: "RoastsRoot"
+  }
+);
 
 const ActivityNavigator = createStackNavigator(
   {
@@ -32,12 +44,13 @@ const ActivityNavigator = createStackNavigator(
 const TabNavigator = createBottomTabNavigator(
   {
     Activity: ActivityNavigator,
-    Roasts: RoastList,
+    Roasts: RoastsNavigator,
     Record: View,
     Beans: BeanList,
     Profile
   },
   {
+    initialRouteName: "Roasts",
     tabBarOptions: {
       activeTintColor: config.colors.primary
     },

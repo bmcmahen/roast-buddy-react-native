@@ -2,7 +2,6 @@ import React from "react";
 import { ListView } from "react-native";
 import RoastRow from "./RoastRow";
 import { Base, Text, Divider } from "../components";
-import { showRoast } from "../actions/recorder";
 
 class AllRoasts extends React.Component {
   constructor(props) {
@@ -13,12 +12,20 @@ class AllRoasts extends React.Component {
   }
 
   _renderRow(roast, sId, i) {
+    const { beans } = roast;
+    const isBlend = beans.length > 1;
+    const beanText = beans.map(b => b.name).join(", ");
+    const name = isBlend ? roast.name : beanText;
+
     return (
       <RoastRow
         key={roast._id}
         roast={roast}
         onPress={() => {
-          this.props.dispatch(showRoast(roast._id));
+          this.props.navigation.navigate("ViewRoast", {
+            id: roast._id,
+            title: name
+          });
         }}
       />
     );
@@ -45,6 +52,7 @@ class AllRoasts extends React.Component {
       <ListView
         dataSource={ds}
         keyboardDismissMode="on-drag"
+        enableEmptySections
         renderSeparator={(a, b) => <Divider inset={16} key={a + b} />}
         renderRow={this._renderRow.bind(this)}
         style={{ flex: 1, backgroundColor: "white" }}

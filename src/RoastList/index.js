@@ -84,6 +84,12 @@ class RoastList extends React.Component {
     };
   }
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Your Roasts"
+    };
+  };
+
   _search(term) {
     this.refs.searchBar.unFocus();
   }
@@ -106,6 +112,7 @@ class RoastList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // eeeek, this is really bad. i need to rewrite this.
     this.setState(
       {
         searchList: this._generateSearchText(nextProps.roasts)
@@ -163,28 +170,28 @@ class RoastList extends React.Component {
           >
             <View style={{ flex: 1 }} tabLabel="All">
               <AllRoasts
-                dispatch={this.props.dispatch}
+                navigation={this.props.navigation}
                 filter={allRoasts}
                 roasts={results}
               />
             </View>
             <View style={{ flex: 1 }} tabLabel="Favorites">
               <AllRoasts
-                dispatch={this.props.dispatch}
+                navigation={this.props.navigation}
                 filter={favouriteRoasts}
                 roasts={results}
               />
             </View>
             <View style={{ flex: 1 }} tabLabel="Blends">
               <AllRoasts
-                dispatch={this.props.dispatch}
+                navigation={this.props.navigation}
                 filter={blendsFilter}
                 roasts={results}
               />
             </View>
             <View style={{ flex: 1 }} tabLabel="Beans">
               <Beans
-                dispatch={this.props.dispatch}
+                navigation={this.props.navigation}
                 search={this.state.search}
                 roasts={this.props.roasts}
               />
@@ -220,7 +227,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fafafa",
+    backgroundColor: "white",
 
     paddingBottom: 10,
     paddingTop: 10
@@ -235,7 +242,7 @@ const styles = StyleSheet.create({
     borderTopColor: "rgba(0,0,0,0.15)",
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    backgroundColor: "#fafafa",
+    backgroundColor: "white",
     borderBottomColor: "rgba(0,0,0,0.15)"
   }
 });
