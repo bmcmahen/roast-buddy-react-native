@@ -8,13 +8,10 @@ import {
   Platform,
   TouchableOpacity,
   LayoutAnimation,
-  TextInput,
   View,
   Dimensions
 } from "react-native";
-import { showIntro } from "../actions/settings";
 import Menu from "../utils/Menu";
-import StarRating from "react-native-star-rating";
 import { hideLoginHint } from "../actions/settings";
 import _ from "lodash";
 import { toggleFavourite, addReview } from "../actions/coffee";
@@ -377,29 +374,7 @@ class Home extends React.Component {
 
                 {recentRoasts.map((roast, i) => this._renderRoast(roast, i))}
               </Base>
-            ) : (
-              <View>
-                <Base p={2}>
-                  <Text
-                    p={2}
-                    pb={1}
-                    mt={2}
-                    small
-                    light
-                    bold
-                    style={{
-                      textTransform: "uppercase"
-                    }}
-                  >
-                    Recent Roasts
-                  </Text>
-                  <Text light small>
-                    No roasts recorded.
-                  </Text>
-                </Base>
-                <Divider />
-              </View>
-            )}
+            ) : null}
             {hasRoasts && (
               <View>
                 <Text
@@ -426,28 +401,6 @@ class Home extends React.Component {
                   </Base>
                 </Base>
                 <Divider backgroundColor="rgba(0,0,0,0.25)" />
-              </View>
-            )}
-            {!hasRoasts && (
-              <View>
-                <Base p={2}>
-                  <Text
-                    p={2}
-                    pb={1}
-                    mt={2}
-                    small
-                    light
-                    bold
-                    style={{
-                      textTransform: "uppercase"
-                    }}
-                  >
-                    Roast Statistics
-                  </Text>
-                  <Text light small>
-                    No roasts recorded.
-                  </Text>
-                </Base>
               </View>
             )}
           </ScrollComponent>

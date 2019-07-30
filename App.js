@@ -3,7 +3,7 @@ import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import React, { useState } from "react";
 import { Platform, StatusBar, StyleSheet, View, YellowBox } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import Container from "./Container";
 
 YellowBox.ignoreWarnings([
@@ -45,7 +45,8 @@ async function loadResourcesAsync() {
     ]),
     Font.loadAsync({
       // This is the font that we are using for our tab bar
-      ...Feather.font
+      ...Feather.font,
+      ...Ionicons.font
     })
   ]);
 }
