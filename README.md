@@ -4,7 +4,7 @@
     <img
     max-width="600px"
     alt="Two screenshots of Roast Buddy."
-     src="https://raw.githubusercontent.com/bmcmahen/roast-buddy-reloaded/master/hero.jpg">
+     src="https://github.com/bmcmahen/roast-buddy-reloaded/blob/master/hero.jpg?raw=true">
   
 </div>
 <br />
