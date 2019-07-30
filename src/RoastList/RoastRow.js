@@ -33,10 +33,10 @@ const RoastRow = ({ dispatch, roast, onPress, children }) => {
       >
         {/* <View style={{ alignSelf: 'center', marginRight: 10, width: 30, height: 30, borderRadius: 15, backgroundColor: color }} /> */}
         <Base flex={1} style={{ paddingVertical: 10 }}>
-          <Text numberOfLines={1} small bold>
+          <Text numberOfLines={1} bold small style={{ lineHeight: 20 }}>
             {name}
           </Text>
-          <Text numberOfLines={1} small light>
+          <Text numberOfLines={1} small style={{ lineHeight: 20 }} light>
             {date} {isBlend ? "- Blend" : ""} {deg ? "- " + deg : ""}
           </Text>
           {children}

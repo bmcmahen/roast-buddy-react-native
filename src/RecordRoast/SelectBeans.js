@@ -29,6 +29,7 @@ import { addCustomBean } from "../actions/custom-beans";
 class Bean extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       mount: new Animated.Value(0)
     };
@@ -85,6 +86,10 @@ class Bean extends React.Component {
 class SelectBeans extends React.Component {
   constructor(props) {
     super(props);
+
+    props.dispatch({
+      type: "RESET_ROAST"
+    });
 
     this._onSearch = _.debounce(this._onSearch.bind(this), 300);
     this._ds = new ListView.DataSource({

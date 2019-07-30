@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import fuzzy from "fuzzy";
-import { Text, Base } from "../components";
+import { Text, Base, config } from "../components";
 import SearchField from "./SearchBar";
 import EmptyHint from "./EmptyHint";
 import Beans from "./Beans";
@@ -22,8 +22,8 @@ import { SafeAreaView } from "react-navigation";
 class TabBar extends React.Component {
   renderTabOption(name, page) {
     const isTabActive = this.props.activeTab === page;
-    const { activeTextColor, inactiveTextColor, textStyle } = this.props;
-    const textColor = isTabActive ? activeTextColor : inactiveTextColor;
+    const { inactiveTextColor, textStyle } = this.props;
+    const textColor = isTabActive ? config.colors.primary : inactiveTextColor;
 
     return (
       <TouchableOpacity
@@ -52,8 +52,8 @@ class TabBar extends React.Component {
     const tabUnderlineStyle = {
       position: "absolute",
       width: containerWidth / numberOfTabs,
-      height: 1,
-      backgroundColor: "black",
+      height: 2,
+      backgroundColor: config.colors.primary,
       bottom: 0
     };
 
@@ -158,15 +158,19 @@ class RoastList extends React.Component {
             onCancelButtonPress={() => {}}
           />
           <TabView
-            style={{ backgroundColor: "white" }}
+            style={{}}
             renderTabBar={() => <TabBar />}
-            tabBarUnderlineColor="black"
+            tabBarUnderlineColor={config.colors.primary}
             onChangeTab={i => {
               this.setState({ currentTab: i });
             }}
-            tabBarActiveTextColor="black"
-            tabBarUnderlineHeight={1}
-            tabBarInactiveTextColor="#aaa"
+            tabBarActiveTextColor={config.colors.primary}
+            tabBarUnderlineHeight={2}
+            tabBarUnderlineStyle={{
+              backgroundColor: "blue",
+              height: 3
+            }}
+            tabBarInactiveTextColor={config.colors.light}
           >
             <View style={{ flex: 1 }} tabLabel="All">
               <AllRoasts
@@ -227,8 +231,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
-
+    backgroundColor: config.colors.lightgray,
     paddingBottom: 10,
     paddingTop: 10
   },
@@ -237,13 +240,13 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     flexDirection: "row",
     justifyContent: "space-around",
-    borderWidth: 1,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(0,0,0,0.15)",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: config.borderColor,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    backgroundColor: "white",
-    borderBottomColor: "rgba(0,0,0,0.15)"
+    backgroundColor: config.colors.lightgray,
+    borderBottomColor: config.borderColor
   }
 });
 

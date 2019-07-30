@@ -26,14 +26,29 @@ const EditBeansNavigator = createStackNavigator(
     EditBeansRoot: EditBean
   },
   {
-    initialRouteName: "EditBeansRoot"
+    initialRouteName: "EditBeansRoot",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: config.colors.lightgray
+      }
+    }
   }
 );
 
-const BeansNavigator = createStackNavigator({
-  BeansRoot: BeanList,
-  ViewBean: ViewBean
-});
+const BeansNavigator = createStackNavigator(
+  {
+    BeansRoot: BeanList,
+    ViewBean: ViewBean
+  },
+  {
+    initialRouteName: "BeansRoot",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: config.colors.lightgray
+      }
+    }
+  }
+);
 
 const RoastsNavigator = createStackNavigator(
   {
@@ -42,7 +57,12 @@ const RoastsNavigator = createStackNavigator(
     BeanRoasts: BeanSublist
   },
   {
-    initialRouteName: "RoastsRoot"
+    initialRouteName: "RoastsRoot",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: config.colors.lightgray
+      }
+    }
   }
 );
 
@@ -52,7 +72,13 @@ const ActivityNavigator = createStackNavigator(
     ViewRoast
   },
   {
-    initialRouteName: "ActivityRoot"
+    initialRouteName: "ActivityRoot",
+
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: config.colors.lightgray
+      }
+    }
   }
 );
 
@@ -65,10 +91,10 @@ const TabNavigator = createBottomTabNavigator(
     Profile
   },
   {
-    initialRouteName: "Activity",
+    initialRouteName: "Profile",
     tabBarOptions: {
       style: {
-        backgroundColor: "#f8f8f8"
+        backgroundColor: config.colors.lightgray
       },
       activeTintColor: config.colors.primary
     },
@@ -103,11 +129,20 @@ const TabNavigator = createBottomTabNavigator(
  * Handles tab views
  */
 
-const RecorderNavigator = createStackNavigator({
-  SelectBeans: { screen: SelectBeans },
-  Blend: { screen: Blend },
-  Recorder: { screen: RecordRoast }
-});
+const RecorderNavigator = createStackNavigator(
+  {
+    SelectBeans: { screen: SelectBeans },
+    Blend: { screen: Blend },
+    Recorder: { screen: RecordRoast }
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: config.colors.lightgray
+      }
+    }
+  }
+);
 
 /**
  * Handles modal views

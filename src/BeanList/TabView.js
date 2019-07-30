@@ -19,7 +19,7 @@ class TabBar extends React.Component {
   renderTabOption(name, page) {
     const isTabActive = this.props.activeTab === page;
     const { activeTextColor, inactiveTextColor, textStyle } = this.props;
-    const textColor = isTabActive ? activeTextColor : inactiveTextColor;
+    const textColor = isTabActive ? config.colors.primary : inactiveTextColor;
 
     return (
       <TouchableOpacity
@@ -48,8 +48,8 @@ class TabBar extends React.Component {
     const tabUnderlineStyle = {
       position: "absolute",
       width: containerWidth / numberOfTabs,
-      height: 1,
-      backgroundColor: "black",
+      height: 2,
+      backgroundColor: config.colors.primary,
       bottom: 0
     };
 
@@ -118,24 +118,23 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: config.colors.gray,
+    backgroundColor: config.colors.lightgray,
 
     paddingBottom: 10,
     paddingTop: 10
   },
   tabs: {
     height: 44,
-    backgroundColor: "red",
     paddingTop: 0,
     flexDirection: "row",
     justifyContent: "space-around",
     borderWidth: 1,
     borderTopWidth: 0,
-    borderTopColor: "rgba(0,0,0,0.15)",
+    borderTopColor: config.borderColor,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    backgroundColor: config.colors.gray,
-    borderBottomColor: "rgba(0,0,0,0.15)"
+    backgroundColor: config.colors.lightgray,
+    borderBottomColor: config.borderColor
   }
 });
 

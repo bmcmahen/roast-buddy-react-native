@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   header: {
     padding: 7,
     paddingLeft: 15,
-
+    paddingVertical: 10,
     overflow: "hidden"
   },
   headerText: {
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#999",
     fontSize: 13,
+    lineHeight: 22,
     letterSpacing: 0.3
   }
 });

@@ -1,9 +1,11 @@
 import React from "react";
-import { Base, Divider, InputTouchable, InputGroup, Text } from "../components";
+import { Base, TouchableInput, InputGroup, Text, config } from "../components";
 import {
   View,
   Animated,
   Dimensions,
+  StatusBar,
+  ImageBackground,
   Alert,
   ActionSheetIOS,
   Platform,
@@ -13,9 +15,8 @@ import { logout } from "../actions/user";
 import Sync from "./Sync";
 import { BlurView } from "expo-blur";
 import EmptyHint from "../RoastList/EmptyHint";
-import * as Facebook from "expo-facebook";
 
-const { LoginManager, AccessToken } = Facebook;
+const AnimatedImage = Animated.createAnimatedComponent(ImageBackground);
 
 const AnimatedBlur = Animated.createAnimatedComponent(
   Platform.OS === "ios" ? BlurView : View
@@ -26,16 +27,6 @@ export default class LoggedIn extends React.Component {
     this.state = {
       scroll: new Animated.Value(0)
     };
-  }
-
-  componentDidMount() {
-    AccessToken.getCurrentAccessToken()
-      .then(data => {
-        console.log(data);
-      })
-      .catch(err => {
-        console.warn(err);
-      });
   }
 
   _showSettings() {
@@ -67,7 +58,6 @@ export default class LoggedIn extends React.Component {
   }
 
   _signOut() {
-    LoginManager.logOut();
     this.props.dispatch(logout());
   }
 
@@ -77,9 +67,10 @@ export default class LoggedIn extends React.Component {
     const { user, hasRoasts } = this.props;
 
     return (
-      <Base flex={1} p={0} backgroundColor="white">
-        <Animated.Image
-          source={{ uri: user.cover.source }}
+      <Base flex={1} p={0} backgroundColor={config.colors.gray}>
+        <StatusBar hidden />
+        <AnimatedImage
+          source={require("./coffee-4.jpg")}
           resizeMode="cover"
           style={{
             position: "absolute",
@@ -133,7 +124,7 @@ export default class LoggedIn extends React.Component {
               {user.name}
             </Animated.Text>
           </AnimatedBlur>
-        </Animated.Image>
+        </AnimatedImage>
 
         <ScrollView
           scrollEventThrottle={7}
@@ -169,7 +160,9 @@ export default class LoggedIn extends React.Component {
                     inputRange: [0, 150],
                     outputRange: [0, 30],
                     extrapolate: "clamp"
-                  }),
+                  })
+                },
+                {
                   translateX: this.state.scroll.interpolate({
                     inputRange: [0, 150],
                     outputRange: [0, -50],
@@ -187,7 +180,7 @@ export default class LoggedIn extends React.Component {
             }}
           />
           <Base flex={1} style={{ paddingTop: 60, zIndex: 0 }}>
-            <Base flex={1} backgroundColor="white">
+            <Base flex={1} backgroundColor={config.colors.gray}>
               <Text
                 textAlign="center"
                 numberOfLines={1}
@@ -197,12 +190,15 @@ export default class LoggedIn extends React.Component {
               >
                 {user.name}
               </Text>
-              <Divider mt={2} />
 
-              <Sync dispatch={this.props.dispatch} roasts={this.props.roasts} />
-
+              <Base mt={3}>
+                <Sync
+                  dispatch={this.props.dispatch}
+                  roasts={this.props.roasts}
+                />
+              </Base>
               <InputGroup mt={3} mb={3}>
-                <InputTouchable
+                <TouchableInput
                   label="Sign out"
                   showMore
                   onPress={this._showSettings.bind(this)}

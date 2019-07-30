@@ -1,7 +1,17 @@
 import React from "react";
-import { Base, Text, Loader, Icon, Button, InputGroup } from "../components";
+import {
+  Base,
+  Text,
+  Loader,
+  Icon,
+  Button,
+  InputGroup,
+  SectionHeader
+} from "../components";
+import moment from "moment";
 import _ from "lodash";
 import { Alert } from "react-native";
+import { DEGREES } from "../data";
 import { syncAllLocalChanges, fetchCoffees } from "../actions/coffee";
 
 class Sync extends React.Component {
@@ -34,38 +44,38 @@ class Sync extends React.Component {
 
     return (
       <Base>
-        <Base p={2} py={1} mt={3}>
-          <Text small bold>
-            Unsynced Changes{" "}
-            <Text thin light small>
-              {isFetching ? "(Fetching...)" : ""}
-            </Text>
+        <SectionHeader>
+          Unsynced Changes
+          <Text thin light small>
+            {isFetching ? "(Fetching...)" : ""}
           </Text>
-        </Base>
+        </SectionHeader>
+
         {total === 0 ? (
           <Text ml={2} small light>
             All items synced to server
           </Text>
         ) : (
-          <Base>
+          <Base backgroundColor="white">
             <InputGroup inset={16}>
               {notSynced.slice(0, 5).map(item => this._renderItem(item))}
             </InputGroup>
             {total > 5 && <Text p={2}>+ {total - 5} more</Text>}
-            <Base>
-              <Button
-                small
-                primary
-                outline
-                disabled={isFetching || syncing}
-                m={2}
-                onPress={() => this._sync()}
-              >
-                Sync with server
-              </Button>
-            </Base>
           </Base>
         )}
+        {/* <Divider /> */}
+        <Base>
+          <Button
+            small
+            alignSelf="flex-start"
+            intent="primary"
+            disabled={isFetching || syncing}
+            m={2}
+            onPress={() => this._sync()}
+          >
+            Sync with server
+          </Button>
+        </Base>
       </Base>
     );
   }
@@ -92,34 +102,54 @@ class Sync extends React.Component {
     });
   }
 
-  _renderItem(item) {
-    if (!item) return null;
-    const { status, isDeleting } = item;
-    const isBlend = item.beans.length > 1;
-    let name = isBlend ? item.name : item.beans[0].name;
+  _renderItem(roast) {
+    if (!roast) return null;
+    const { status, isDeleting } = roast;
+    const isBlend = roast.beans.length > 1;
+    let name = isBlend ? roast.name : roast.beans[0].name;
     if (isDeleting) {
       name += " - Deleting";
     }
+
+    const date = moment(roast.date)
+      .local()
+      .format("MMM DD, YYYY");
+
+    const deg =
+      roast.roasts.length > 1
+        ? "Melange"
+        : DEGREES[roast.roasts[0].degree]
+        ? DEGREES[roast.roasts[0].degree].label
+        : "";
+
     return (
       <Base
-        key={item._id}
-        height={40}
+        key={roast._id}
         px={2}
         row
-        alignItems="center"
+        alignroasts="center"
         justifyContent="space-between"
       >
-        <Text>{name}</Text>
-        {status === "sync-error" && (
-          <Icon
-            ml={2}
-            accessibilityLabel="error syncing"
-            size={20}
-            color="red"
-            name="ios-alert"
-          />
-        )}
-        {status === "sync" && <Loader showText={false} flex={0} small />}
+        <Base flex={1} style={{ paddingVertical: 10 }}>
+          <Text numberOfLines={1} bold small style={{ lineHeight: 20 }}>
+            {name}
+          </Text>
+          <Text numberOfLines={1} small style={{ lineHeight: 20 }} light>
+            {date} {isBlend ? "- Blend" : ""} {deg ? "- " + deg : ""}
+          </Text>
+        </Base>
+        <Base row align="center">
+          {status === "sync-error" && (
+            <Icon
+              ml={2}
+              accessibilityLabel="error syncing"
+              size={25}
+              color="red"
+              name="alert-octagon"
+            />
+          )}
+          {status === "sync" && <Loader showText={false} flex={0} small />}
+        </Base>
       </Base>
     );
   }

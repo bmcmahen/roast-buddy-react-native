@@ -122,7 +122,15 @@ class RecordRoast extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Record",
-      headerLeft: null,
+      headerLeft: (
+        <NavTouchableText
+          onPress={() => {
+            navigation.navigate("Root");
+          }}
+        >
+          Cancel
+        </NavTouchableText>
+      ),
       headerRight: (
         <NavTouchableText
           onPress={() => {
@@ -140,7 +148,6 @@ class RecordRoast extends React.Component {
     StackActions.reset();
     this.props.navigation.setParams({
       saveRoast: () => {
-        console.log("save roast");
         this._save();
       }
     });
@@ -151,7 +158,6 @@ class RecordRoast extends React.Component {
   }
 
   _save() {
-    console.log("save roast", this.props.roast);
     const { roast } = this.props;
     const cloned = _.clone(roast);
 
@@ -164,7 +170,6 @@ class RecordRoast extends React.Component {
       return r;
     });
 
-    console.log("save roast %o", cloned);
     this.props.dispatch(addCoffee(cloned._id, cloned));
     this._closeModal();
   }

@@ -113,10 +113,10 @@ class PriorityRow extends React.Component {
               {rating + "/5 - "}
             </Text>
           )}
-          <Text small light>
+          <Text style={{ lineHeight: 20 }} small light>
             {moment(review.date).format("MMMM DD")} -{" "}
           </Text>
-          <Text small light>
+          <Text style={{ lineHeight: 20 }} small light>
             {text}
           </Text>
         </Text>
@@ -159,7 +159,7 @@ class PriorityRow extends React.Component {
             }}
           >
             <Base flex={1} style={{ paddingVertical: 10 }}>
-              <Text numberOfLines={1} bold>
+              <Text numberOfLines={1} style={{ lineHeight: 20 }} small bold>
                 {name}
               </Text>
               <Text numberOfLines={1} small style={{ lineHeight: 20 }} light>

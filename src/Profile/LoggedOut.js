@@ -4,6 +4,7 @@ import { Dimensions, Alert, StatusBar } from "react-native";
 import * as Facebook from "expo-facebook";
 import { loginWithFacebook } from "./facebook";
 import { login } from "../actions/user";
+import { facebook } from "../config";
 
 const { AccessToken, LoginManager } = Facebook;
 
@@ -23,9 +24,9 @@ class LoggedOut extends React.Component {
       .catch(this._loginError.bind(this));
   }
 
-  async _requestProfile() {
+  async _requestProfile(token) {
     try {
-      const profile = await loginWithFacebook();
+      const profile = await loginWithFacebook(token);
       // dispatch our login event
       console.log("Profile", profile);
       this.props.dispatch(login(profile));
@@ -45,20 +46,15 @@ class LoggedOut extends React.Component {
   }
 
   _login() {
-    LoginManager.logInWithReadPermissions(["public_profile"])
+    Facebook.logInWithReadPermissionsAsync(facebook, {
+      permissions: ["public_profile"]
+    })
       .then(result => {
-        if (result.isCancelled) return;
-
-        if (result.declinedPermissions && result.declinedPermissions.length) {
-          Alert.alert(
-            "You declined certain permissions which are required to log in.",
-            "Please try logging in again. We promise not to post on your Facebook."
-          );
-        }
+        if (result.type === "cancel") return;
 
         console.log("Logged in with %o", result);
         this.setState({ loading: true });
-        this._requestProfile();
+        this._requestProfile(result.token);
       })
       .catch(this._loginError.bind(this));
   }

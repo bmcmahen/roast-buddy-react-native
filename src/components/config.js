@@ -10,7 +10,8 @@ const baseColors = {
   darkgray: "#1e1e1e",
   red: "#c30016",
   orange: "#f70",
-  green: "#1c7"
+  green: "#1c7",
+  lightgray: "#f8f8f8"
 };
 
 const colors = {
