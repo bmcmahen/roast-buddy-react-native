@@ -1,6 +1,6 @@
 import React from "react";
 import { Animated, StyleSheet } from "react-native";
-import { Button, Base, Image, config } from "../components";
+import { Button, Base, Image } from "../components";
 
 class Onboard extends React.Component {
   constructor(props) {
