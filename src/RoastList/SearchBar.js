@@ -32,7 +32,7 @@ class SearchBar extends React.Component {
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    height: 55,
+    height: 48,
     margin: 0,
     backgroundColor: config.colors.lightgray,
     flexDirection: "row",
