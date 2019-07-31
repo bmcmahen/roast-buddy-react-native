@@ -25,6 +25,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "An app designed to help you record your various coffee roastings. ",
+    "githubUrl": "https://github.com/bmcmahen/roast-buddy-react-native"
   }
 }
